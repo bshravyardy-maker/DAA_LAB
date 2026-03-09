@@ -4,1846 +4,1908 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAA Lab — One Night Survival 🌙</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #060810;
-  --surface: #0d1117;
-  --card: #111827;
-  --border: #1f2937;
-  --accent: #f59e0b;
-  --accent2: #10b981;
-  --accent3: #6366f1;
-  --accent4: #f43f5e;
-  --text: #f1f5f9;
-  --muted: #64748b;
-  --code-bg: #080c14;
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'Outfit', sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}
-
-/* STARS BG */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse at 20% 50%,rgba(99,102,241,0.05) 0%,transparent 60%),
-             radial-gradient(ellipse at 80% 20%,rgba(245,158,11,0.04) 0%,transparent 50%);
-  pointer-events:none;z-index:0;
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #2a2a3a;
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --green: #00d98b;
+  --yellow: #ffd166;
+  --text: #e8e8f0;
+  --text2: #8888aa;
+  --code-bg: #0d0d15;
 }
 
-/* ====== SIDEBAR ====== */
-.sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:250px;
-  background:rgba(13,17,23,0.97);
-  border-right:1px solid var(--border);
-  overflow-y:auto;z-index:200;
-  display:flex;flex-direction:column;
-  backdrop-filter:blur(20px);
-}
-.sidebar-header{
-  padding:20px 16px 12px;
-  border-bottom:1px solid var(--border);
-}
-.sidebar-header h1{
-  font-size:18px;font-weight:900;letter-spacing:-0.5px;
-  background:linear-gradient(90deg,var(--accent),#fb923c);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.sidebar-header p{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-.night-timer{
-  margin:10px 16px;padding:8px 12px;
-  background:rgba(244,63,94,0.08);
-  border:1px solid rgba(244,63,94,0.2);
-  border-radius:8px;
-  font-family:var(--mono);font-size:11px;
-  color:#f43f5e;text-align:center;
-}
-.night-timer #clock{font-size:20px;font-weight:700;display:block;margin-bottom:2px}
-
-.progress-wrap{margin:8px 16px}
-.progress-label{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:4px}
-.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.5s}
-
-.nav-section{
-  padding:10px 16px 4px;
-  font-size:9px;font-weight:700;letter-spacing:2px;
-  color:var(--muted);text-transform:uppercase;
-}
-.nav-item{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 16px;margin:1px 6px;
-  border-radius:7px;cursor:pointer;
-  transition:all 0.18s;font-size:13px;
-  color:var(--muted);font-weight:600;
-  border:1px solid transparent;position:relative;
-}
-.nav-item:hover{background:var(--card);color:var(--text);border-color:var(--border)}
-.nav-item.active{background:rgba(245,158,11,0.1);color:var(--accent);border-color:rgba(245,158,11,0.25)}
-.nav-item .done-badge{
-  margin-left:auto;width:16px;height:16px;border-radius:50%;
-  background:var(--accent2);display:none;
-  align-items:center;justify-content:center;font-size:9px;
-}
-.nav-item.done .done-badge{display:flex}
-
-/* ====== MAIN ====== */
-.main{margin-left:250px;min-height:100vh;position:relative;z-index:1}
-
-/* TOPBAR */
-.topbar{
-  position:sticky;top:0;
-  background:rgba(6,8,16,0.9);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:0 36px;height:56px;
-  display:flex;align-items:center;justify-content:space-between;
-  z-index:100;
-}
-.breadcrumb{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.breadcrumb span{color:var(--text)}
-.topbar-right{display:flex;align-items:center;gap:10px}
-.xp-badge{
-  font-family:var(--mono);font-size:11px;
-  background:rgba(245,158,11,0.1);
-  border:1px solid rgba(245,158,11,0.3);
-  color:var(--accent);padding:4px 12px;border-radius:20px;
-}
-.menu-btn{
-  display:none;width:34px;height:34px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:7px;cursor:pointer;color:var(--text);
-  font-size:16px;align-items:center;justify-content:center;
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* ====== CONTENT ====== */
-.content{padding:36px;max-width:920px}
-.page{display:none;animation:fadeUp 0.3s ease}
-.page.active{display:block}
+/* SIDEBAR */
+#sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.3s;
+  z-index: 100;
+}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.sidebar-header {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
 
-/* HOME */
-.hero{margin-bottom:40px}
-.hero-tag{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:4px 14px;border-radius:20px;font-size:11px;font-family:var(--mono);
-  background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.3);
-  color:#f43f5e;margin-bottom:14px;font-weight:700;letter-spacing:1px;
+.sidebar-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
 }
-.hero h1{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1.05}
-.hero h1 span{background:linear-gradient(135deg,var(--accent),#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:15px;color:var(--muted);margin-top:12px;line-height:1.7;max-width:520px}
 
-.home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-top:28px}
-.topic-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:18px;cursor:pointer;
-  transition:all 0.22s;position:relative;overflow:hidden;
+.sidebar-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
 }
-.topic-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent 60%,rgba(245,158,11,0.03));
-  opacity:0;transition:opacity 0.2s;
-}
-.topic-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 28px rgba(245,158,11,0.1)}
-.topic-card:hover::before{opacity:1}
-.tc-week{font-size:9px;font-family:var(--mono);color:var(--muted);font-weight:700;letter-spacing:1px;margin-bottom:6px}
-.tc-icon{font-size:26px;margin-bottom:10px}
-.tc-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
-.tc-type{font-size:10px;color:var(--muted);font-family:var(--mono)}
-.tc-done{
-  position:absolute;top:10px;right:10px;
-  background:var(--accent2);color:#fff;
-  font-size:10px;padding:2px 7px;border-radius:10px;
-  font-weight:700;display:none;
-}
-.topic-card.done .tc-done{display:block}
 
-/* STAT STRIP */
-.stat-strip{display:flex;gap:20px;margin-bottom:32px;flex-wrap:wrap}
-.stat-box{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:10px;padding:14px 20px;flex:1;min-width:120px;
+.timer-box {
+  margin: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
 }
-.stat-box .s-num{font-size:28px;font-weight:900;font-family:var(--mono)}
-.stat-box .s-lbl{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.timer-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+.timer-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+.progress-box {
+  margin: 0 16px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.progress-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.progress-bar { height: 6px; background: var(--border); border-radius: 3px; }
+.progress-fill {
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.progress-count { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+.nav-section {
+  padding: 8px 16px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text2);
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  font-size: 13px;
+  color: var(--text2);
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { border-left-color: var(--accent); background: rgba(108,99,255,0.1); color: var(--text); }
+.nav-item.done { color: var(--green); }
+.nav-check { margin-left: auto; font-size: 11px; color: var(--green); }
+
+/* MAIN */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HOME PAGE */
+.page { display: none; padding: 32px; max-width: 900px; margin: 0 auto; width: 100%; }
+.page.active { display: block; }
+
+.xp-bar {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 50;
+  font-size: 13px;
+}
+.xp-val { font-family: 'JetBrains Mono', monospace; color: var(--yellow); font-weight: 700; }
+
+.exam-banner {
+  background: linear-gradient(135deg, rgba(255,65,84,0.15), rgba(255,101,132,0.1));
+  border: 1px solid rgba(255,65,84,0.3);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 28px;
+  font-size: 13px;
+  color: #ff4154;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.home-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.home-sub { font-size: 15px; color: var(--text2); margin-bottom: 28px; }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-num { font-size: 28px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.stat-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.topic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.topic-card:hover { border-color: var(--accent); background: var(--surface2); transform: translateY(-1px); }
+.topic-card.done { border-color: rgba(0,217,139,0.3); }
+.topic-icon { font-size: 24px; }
+.topic-info { flex: 1; }
+.topic-cat { font-size: 10px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+.topic-name { font-size: 14px; font-weight: 600; }
+.topic-complexity { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); margin-top: 2px; }
+.topic-done { color: var(--green); font-size: 16px; }
 
 /* TOPIC PAGE */
-.back-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:7px 14px;border-radius:7px;
-  background:var(--card);border:1px solid var(--border);
-  color:var(--muted);cursor:pointer;font-size:12px;
-  font-family:var(--sans);font-weight:600;margin-bottom:24px;
-  transition:all 0.18s;
-}
-.back-btn:hover{color:var(--text);border-color:var(--accent)}
+.topic-page { display: none; padding: 28px 32px; }
+.topic-page.active { display: block; }
 
-.topic-tag{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:4px 12px;border-radius:20px;font-size:10px;
-  font-family:var(--mono);font-weight:700;letter-spacing:1px;
-  margin-bottom:14px;border:1px solid;
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.15s;
 }
-.tag-dc{background:rgba(245,158,11,0.08);color:var(--accent);border-color:rgba(245,158,11,0.25)}
-.tag-graph{background:rgba(16,185,129,0.08);color:var(--accent2);border-color:rgba(16,185,129,0.25)}
-.tag-greedy{background:rgba(99,102,241,0.08);color:var(--accent3);border-color:rgba(99,102,241,0.25)}
-.tag-tree{background:rgba(244,63,94,0.08);color:var(--accent4);border-color:rgba(244,63,94,0.25)}
+.back-btn:hover { color: var(--text); border-color: var(--accent); }
 
-.topic-title{font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1.1}
-.topic-sub{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+.topic-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.topic-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(108,99,255,0.1);
+  border: 1px solid rgba(108,99,255,0.3);
+  border-radius: 4px;
+  padding: 3px 8px;
+  margin-bottom: 10px;
+}
+.topic-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.topic-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
 
-/* CARDS */
-.card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:24px;margin-bottom:18px;
-  position:relative;overflow:hidden;
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 12px;
+  margin-top: 24px;
 }
-.card::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(245,158,11,0.3),transparent);
-}
-.card-label{
-  font-size:10px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:14px;
-  display:flex;align-items:center;gap:8px;
-}
-.card-label::before{content:'';display:block;width:10px;height:2px;background:var(--accent);border-radius:1px}
-.card p{font-size:14px;line-height:1.75;color:#94a3b8}
-.card p strong{color:var(--text)}
 
 /* ALGO BOX */
-.algo-box{
-  background:var(--code-bg);border:1px solid var(--border);
-  border-radius:10px;padding:20px;margin:12px 0;
-  font-family:var(--mono);font-size:12px;line-height:1.9;
-  color:#94a3b8;overflow-x:auto;position:relative;
+.algo-box {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
-.algo-box .kw{color:#818cf8;font-weight:700}
-.algo-box .fn{color:#34d399}
-.algo-box .cm{color:#374151;font-style:italic}
-.algo-box .vl{color:#fb923c}
-.algo-label{
-  position:absolute;top:10px;right:10px;
-  font-size:8px;font-weight:700;letter-spacing:2px;
-  background:var(--border);color:var(--muted);
-  padding:2px 8px;border-radius:4px;
+.algo-box-header {
+  background: var(--surface2);
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+.algo-box pre {
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: pre;
 }
 
-/* CODE AREA */
-.code-wrap{
-  background:var(--code-bg);border:1px solid var(--border);
-  border-radius:10px;overflow:hidden;
+/* VIZ BOX */
+.viz-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text2);
 }
-.code-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-bottom:1px solid var(--border);
-  background:rgba(255,255,255,0.02);
-}
-.dots{display:flex;gap:5px}
-.dot{width:9px;height:9px;border-radius:50%}
-.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
-.lang-tag{font-family:var(--mono);font-size:9px;color:var(--muted);background:var(--border);padding:2px 8px;border-radius:4px}
-.copy-btn{
-  background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);
-  color:var(--accent3);padding:3px 10px;border-radius:5px;
-  font-size:9px;cursor:pointer;font-family:var(--mono);
-  transition:all 0.18s;font-weight:700;letter-spacing:0.5px;
-}
-.copy-btn:hover{background:rgba(99,102,241,0.2)}
-.copy-btn.copied{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:var(--accent2)}
-pre{
-  padding:18px 20px;overflow-x:auto;
-  font-family:var(--mono);font-size:11.5px;line-height:1.85;
-  color:#94a3b8;white-space:pre;
-}
-pre .kw{color:#818cf8;font-weight:700}
-pre .fn{color:#34d399}
-pre .st{color:#86efac}
-pre .nm{color:#fb923c}
-pre .cm{color:#1e3a5f}
-pre .tp{color:#fbbf24}
+.viz-box .highlight { color: var(--green); font-weight: 700; }
+.viz-box .accent { color: var(--accent); }
 
-/* COMPLEXITY GRID */
-.cx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
-.cx-item{background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
-.cx-item .cx-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.cx-item .cx-val{font-family:var(--mono);font-size:15px;font-weight:700}
-.cx-item.best .cx-val{color:var(--accent2)}
-.cx-item.avg .cx-val{color:var(--accent)}
-.cx-item.worst .cx-val{color:var(--accent4)}
-
-/* VISUAL */
-.visual{
-  background:var(--code-bg);border:1px solid var(--border);
-  border-radius:10px;padding:20px;margin:12px 0;
-  font-family:var(--mono);font-size:11px;line-height:2.1;
-  color:#475569;overflow-x:auto;
+/* COMPLEXITY */
+.complexity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
 }
-.visual .hi{color:var(--accent3);font-weight:700}
-.visual .ok{color:var(--accent2);font-weight:700}
-.visual .ac{color:var(--accent);font-weight:700}
-.visual .st{color:var(--muted);font-size:10px}
+.complexity-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.complexity-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; font-weight: 600; }
+.complexity-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.complexity-val.good { color: var(--green); }
+.complexity-val.bad { color: var(--accent2); }
+
+/* CODE BOX */
+.code-box {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.code-header {
+  background: var(--surface2);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.code-lang {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent2);
+  text-transform: uppercase;
+}
+.copy-btn {
+  font-size: 11px;
+  color: var(--text2);
+  cursor: pointer;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s;
+}
+.copy-btn:hover { color: var(--text); border-color: var(--accent); }
+.code-box pre {
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #c9d1d9;
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 480px;
+}
 
 /* DONE BTN */
-.mark-done-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 24px;border-radius:8px;
-  background:linear-gradient(135deg,var(--accent2),#059669);
-  color:#fff;cursor:pointer;font-size:13px;font-weight:700;
-  font-family:var(--sans);border:none;margin-top:6px;
-  transition:all 0.2s;letter-spacing:0.3px;
+.done-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), #8b80ff);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  margin-bottom: 24px;
 }
-.mark-done-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,0.3)}
-.mark-done-btn.already{background:var(--border);color:var(--muted);cursor:default;transform:none;box-shadow:none}
+.done-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.4); }
+.done-btn.completed { background: linear-gradient(135deg, var(--green), #00b374); }
 
-/* ====== GAMES ====== */
-.games-section{margin-top:16px}
-.game-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.game-tab{
-  padding:7px 16px;border-radius:7px;border:1px solid var(--border);
-  background:var(--card);color:var(--muted);cursor:pointer;
-  font-family:var(--sans);font-size:12px;font-weight:700;
-  transition:all 0.18s;
+/* GAMES PAGE */
+.games-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
 }
-.game-tab.active{background:rgba(99,102,241,0.15);color:var(--accent3);border-color:rgba(99,102,241,0.3)}
+.games-tab {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.games-tab:hover { color: var(--text); }
+.games-tab.active { color: var(--accent); border-color: var(--accent); background: rgba(108,99,255,0.1); }
 
-.game-panel{display:none}
-.game-panel.active{display:block;animation:fadeUp 0.3s ease}
+.game-panel { display: none; }
+.game-panel.active { display: block; }
 
-/* QUIZ GAME */
-.quiz-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:24px;max-width:620px;
+.quiz-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
 }
-.quiz-q{font-size:15px;font-weight:600;line-height:1.6;margin-bottom:18px;color:var(--text)}
-.quiz-opts{display:flex;flex-direction:column;gap:8px}
-.quiz-opt{
-  padding:11px 16px;border-radius:8px;border:1px solid var(--border);
-  cursor:pointer;font-size:13px;font-weight:600;
-  transition:all 0.18s;color:#94a3b8;background:var(--code-bg);
+.quiz-q { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quiz-opt {
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s;
+  text-align: center;
 }
-.quiz-opt:hover{border-color:var(--accent3);color:var(--text);background:rgba(99,102,241,0.05)}
-.quiz-opt.correct{background:rgba(16,185,129,0.1);border-color:var(--accent2);color:var(--accent2)}
-.quiz-opt.wrong{background:rgba(244,63,94,0.1);border-color:var(--accent4);color:var(--accent4)}
-.quiz-feedback{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;display:none}
-.quiz-feedback.show{display:block}
-.quiz-feedback.ok{background:rgba(16,185,129,0.1);color:var(--accent2);border:1px solid rgba(16,185,129,0.25)}
-.quiz-feedback.no{background:rgba(244,63,94,0.1);color:var(--accent4);border:1px solid rgba(244,63,94,0.25)}
-.quiz-next{
-  margin-top:14px;padding:9px 20px;border-radius:7px;
-  background:var(--accent3);color:#fff;cursor:pointer;
-  font-size:12px;font-weight:700;border:none;font-family:var(--sans);
-  display:none;transition:all 0.18s;
-}
-.quiz-next.show{display:inline-flex}
-.quiz-score{
-  font-family:var(--mono);font-size:13px;color:var(--accent);
-  margin-bottom:12px;
+.quiz-opt:hover { border-color: var(--accent); }
+.quiz-opt.correct { border-color: var(--green); background: rgba(0,217,139,0.1); color: var(--green); }
+.quiz-opt.wrong { border-color: var(--accent2); background: rgba(255,101,132,0.1); color: var(--accent2); }
+.quiz-score { font-size: 14px; color: var(--text2); margin-bottom: 12px; }
+.next-btn {
+  padding: 10px 20px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
 }
 
 /* MEMORY GAME */
-.memory-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:8px;max-width:440px;
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
 }
-.mem-card{
-  height:80px;border-radius:8px;cursor:pointer;
-  background:var(--card);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-family:var(--mono);font-weight:700;
-  color:transparent;transition:all 0.25s;text-align:center;
-  padding:6px;line-height:1.3;
+.mem-card {
+  aspect-ratio: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+  padding: 8px;
+  transition: all 0.2s;
+  color: transparent;
+  user-select: none;
+  line-height: 1.3;
 }
-.mem-card.flipped{
-  background:rgba(99,102,241,0.1);border-color:var(--accent3);
-  color:var(--text);
-}
-.mem-card.matched{
-  background:rgba(16,185,129,0.1);border-color:var(--accent2);
-  color:var(--accent2);cursor:default;
-}
-.mem-info{font-size:12px;color:var(--muted);margin-bottom:12px;font-family:var(--mono)}
+.mem-card.flipped { background: var(--surface); border-color: var(--accent); color: var(--text); }
+.mem-card.matched { background: rgba(0,217,139,0.1); border-color: var(--green); color: var(--green); }
+.mem-stats { text-align: center; margin-bottom: 16px; font-size: 13px; color: var(--text2); }
 
-/* SNAKE GAME */
-#snake-canvas{
-  background:var(--code-bg);border:1px solid var(--border);
-  border-radius:10px;display:block;cursor:pointer;
+/* SNAKE */
+#snake-canvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid var(--border);
+  border-radius: 8px;
 }
-.snake-info{
-  font-family:var(--mono);font-size:12px;color:var(--muted);
-  margin-bottom:10px;display:flex;gap:20px;align-items:center;
-}
-.snake-score{color:var(--accent);font-weight:700}
-.snake-btn{
-  padding:7px 16px;border-radius:7px;
-  background:var(--accent3);color:#fff;
-  cursor:pointer;font-size:11px;font-weight:700;
-  border:none;font-family:var(--sans);margin-top:8px;
+.snake-controls { text-align: center; margin-top: 12px; }
+.snake-score { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text2); margin-bottom: 12px; }
+.start-btn {
+  padding: 10px 24px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* GRID 2 */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-
-/* MOBILE */
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%);transition:transform 0.3s}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
-  .content{padding:18px}
-  .topic-title{font-size:28px}
-  .hero h1{font-size:32px}
-  .grid2{grid-template-columns:1fr}
-  .cx-grid{grid-template-columns:repeat(3,1fr)}
-  .topbar{padding:0 18px}
-  .menu-btn{display:flex!important}
+/* Mobile sidebar toggle */
+.menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 16px;
 }
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:150}
-.overlay.show{display:block}
 
-/* TOAST */
-.toast{
-  position:fixed;bottom:24px;right:24px;
-  background:var(--accent2);color:#fff;
-  padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;
-  z-index:999;opacity:0;transform:translateY(10px);
-  transition:all 0.3s;pointer-events:none;
+@media (max-width: 768px) {
+  #sidebar { position: fixed; top: 0; left: 0; height: 100%; transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  .menu-btn { display: block; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .topics-grid { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
 }
-.toast.show{opacity:1;transform:translateY(0)}
+
+.note-box {
+  background: rgba(255,209,102,0.08);
+  border: 1px solid rgba(255,209,102,0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--yellow);
+  margin-bottom: 16px;
+}
 </style>
 </head>
 <body>
 
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-<div class="toast" id="toast"></div>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
 <!-- SIDEBAR -->
-<nav class="sidebar" id="sidebar">
+<nav id="sidebar">
   <div class="sidebar-header">
-    <h1>DAA Survival 🌙</h1>
-    <p>// one night. all algorithms.</p>
+    <div class="sidebar-logo">DAA Survival 🌙</div>
+    <div class="sidebar-sub">// one night. all algorithms.</div>
   </div>
-  <div class="night-timer">
-    <span id="clock">00:00:00</span>
-    time survived tonight
+  <div class="timer-box">
+    <div class="timer-val" id="timer">00:00:00</div>
+    <div class="timer-label">time survived tonight</div>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Progress</span><span id="prog-txt">0/11</span></div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="progress-box">
+    <div class="progress-label">Progress</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-count" id="progressCount">0/9</div>
   </div>
 
   <div class="nav-section">Home</div>
-  <div class="nav-item active" onclick="showHome(this)">🏠 Home <div class="done-badge">✓</div></div>
-  <div class="nav-item" onclick="showTopic('games',this)">🎮 Study Games <div class="done-badge">✓</div></div>
+  <div class="nav-item active" onclick="showPage('home')" id="nav-home">🏠 Home</div>
+  <div class="nav-item" onclick="showPage('games')" id="nav-games">🎮 Study Games</div>
 
-  <div class="nav-section">Divide & Conquer</div>
-  <div class="nav-item" id="nav-bs" onclick="showTopic('bs',this)">🔍 Binary Search <div class="done-badge">✓</div></div>
-  <div class="nav-item" id="nav-qs" onclick="showTopic('qs',this)">⚡ Quick Sort <div class="done-badge">✓</div></div>
-  <div class="nav-item" id="nav-ms" onclick="showTopic('ms',this)">🔀 Merge Sort <div class="done-badge">✓</div></div>
+  <div class="nav-section">Divide &amp; Conquer</div>
+  <div class="nav-item" onclick="showTopic('binary')" id="nav-binary">🔍 Binary Search <span class="nav-check" id="chk-binary"></span></div>
+  <div class="nav-item" onclick="showTopic('quick')" id="nav-quick">⚡ Quick Sort <span class="nav-check" id="chk-quick"></span></div>
+  <div class="nav-item" onclick="showTopic('merge')" id="nav-merge">🔀 Merge Sort <span class="nav-check" id="chk-merge"></span></div>
 
   <div class="nav-section">Graph Algorithms</div>
-  <div class="nav-item" id="nav-bfsdfs" onclick="showTopic('bfsdfs',this)">🌐 BFS & DFS <div class="done-badge">✓</div></div>
-  <div class="nav-item" id="nav-ap" onclick="showTopic('ap',this)">🔗 AP & Biconnected <div class="done-badge">✓</div></div>
-  <div class="nav-item" id="nav-dijk" onclick="showTopic('dijk',this)">🗺️ Dijkstra's <div class="done-badge">✓</div></div>
+  <div class="nav-item" onclick="showTopic('bfsdfs')" id="nav-bfsdfs">🌐 BFS &amp; DFS <span class="nav-check" id="chk-bfsdfs"></span></div>
+  <div class="nav-item" onclick="showTopic('ap')" id="nav-ap">🔗 AP &amp; Biconnected <span class="nav-check" id="chk-ap"></span></div>
+  <div class="nav-item" onclick="showTopic('dijkstra')" id="nav-dijkstra">🗺️ Dijkstra's <span class="nav-check" id="chk-dijkstra"></span></div>
 
   <div class="nav-section">Greedy</div>
-  <div class="nav-item" id="nav-mst" onclick="showTopic('mst',this)">🌲 Prim's & Kruskal's <div class="done-badge">✓</div></div>
-  <div class="nav-item" id="nav-job" onclick="showTopic('job',this)">📋 Job Sequencing <div class="done-badge">✓</div></div>
+  <div class="nav-item" onclick="showTopic('mst')" id="nav-mst">🌲 Prim's &amp; Kruskal's <span class="nav-check" id="chk-mst"></span></div>
+  <div class="nav-item" onclick="showTopic('job')" id="nav-job">📋 Job Sequencing <span class="nav-check" id="chk-job"></span></div>
 
   <div class="nav-section">Trees</div>
-  <div class="nav-item" id="nav-bst" onclick="showTopic('bst',this)">🌳 BST Traversals <div class="done-badge">✓</div></div>
+  <div class="nav-item" onclick="showTopic('bst')" id="nav-bst">🌳 BST Traversals <span class="nav-check" id="chk-bst"></span></div>
 </nav>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="menu-btn" onclick="toggleSidebar()" style="display:none">☰</div>
-      <div class="breadcrumb" id="breadcrumb">DAA Lab / <span>Home</span></div>
-    </div>
-    <div class="topbar-right">
-      <div class="xp-badge">⭐ <span id="xp">0</span> XP</div>
-    </div>
+<!-- MAIN CONTENT -->
+<div id="main">
+
+  <!-- XP BAR -->
+  <div class="xp-bar">
+    <span>⭐</span>
+    <span class="xp-val" id="xpDisplay">0 XP</span>
+    <span style="color:var(--text2); font-size:12px; margin-left:auto;">DAA Lab / <span id="pageName">Home</span></span>
   </div>
 
-  <div class="content">
-
-<!-- ========== HOME ========== -->
-<div class="page active" id="page-home">
-  <div class="hero">
-    <div class="hero-tag">🚨 EXAM MODE ACTIVATED</div>
-    <h1>One Night.<br><span>All of DAA.</span></h1>
-    <p>Ma'am's exact algorithms + Java code. Everything from the paper. You got this — let's go topic by topic. 💪</p>
-  </div>
-  <div class="stat-strip">
-    <div class="stat-box"><div class="s-num" style="color:var(--accent)">11</div><div class="s-lbl">Topics</div></div>
-    <div class="stat-box"><div class="s-num" style="color:var(--accent2)" id="done-count">0</div><div class="s-lbl">Completed</div></div>
-    <div class="stat-box"><div class="s-num" style="color:var(--accent3)">Java</div><div class="s-lbl">Language</div></div>
-    <div class="stat-box"><div class="s-num" style="color:var(--accent4)">1</div><div class="s-lbl">Night Left</div></div>
-  </div>
-  <div class="home-grid">
-    <div class="topic-card" id="card-bs" onclick="showTopic('bs',null)">
-      <div class="tc-week">DIVIDE & CONQUER</div>
-      <div class="tc-icon">🔍</div>
-      <div class="tc-name">Binary Search</div>
-      <div class="tc-type">O(log n)</div>
-      <div class="tc-done">✓ Done</div>
+  <!-- HOME -->
+  <div class="page active" id="page-home" style="padding-top:20px;">
+    <div class="exam-banner">🚨 EXAM MODE ACTIVATED</div>
+    <h1 class="home-title"># One Night. All of DAA.</h1>
+    <p class="home-sub">Everything from the paper. You got this — let's go topic by topic. 💪</p>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">9</div><div class="stat-label">Topics</div></div>
+      <div class="stat-card"><div class="stat-num" id="doneCount">0</div><div class="stat-label">Completed</div></div>
+      <div class="stat-card"><div class="stat-num">Java</div><div class="stat-label">Language</div></div>
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Night Left</div></div>
     </div>
-    <div class="topic-card" id="card-qs" onclick="showTopic('qs',null)">
-      <div class="tc-week">DIVIDE & CONQUER</div>
-      <div class="tc-icon">⚡</div>
-      <div class="tc-name">Quick Sort</div>
-      <div class="tc-type">O(n log n) avg</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-ms" onclick="showTopic('ms',null)">
-      <div class="tc-week">DIVIDE & CONQUER</div>
-      <div class="tc-icon">🔀</div>
-      <div class="tc-name">Merge Sort</div>
-      <div class="tc-type">O(n log n)</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-bfsdfs" onclick="showTopic('bfsdfs',null)">
-      <div class="tc-week">GRAPH</div>
-      <div class="tc-icon">🌐</div>
-      <div class="tc-name">BFS & DFS</div>
-      <div class="tc-type">O(V+E)</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-ap" onclick="showTopic('ap',null)">
-      <div class="tc-week">WEEK 2 — MA'AM'S DOC</div>
-      <div class="tc-icon">🔗</div>
-      <div class="tc-name">AP & Biconnected</div>
-      <div class="tc-type">O(V+E)</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-dijk" onclick="showTopic('dijk',null)">
-      <div class="tc-week">WEEK 4 — MA'AM'S DOC</div>
-      <div class="tc-icon">🗺️</div>
-      <div class="tc-name">Dijkstra's</div>
-      <div class="tc-type">O(V²)</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-mst" onclick="showTopic('mst',null)">
-      <div class="tc-week">WEEK 3 — MA'AM'S DOC</div>
-      <div class="tc-icon">🌲</div>
-      <div class="tc-name">Prim's & Kruskal's</div>
-      <div class="tc-type">MST algorithms</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-job" onclick="showTopic('job',null)">
-      <div class="tc-week">WEEK 5 — MA'AM'S DOC</div>
-      <div class="tc-icon">📋</div>
-      <div class="tc-name">Job Sequencing</div>
-      <div class="tc-type">Greedy O(n²)</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" id="card-bst" onclick="showTopic('bst',null)">
-      <div class="tc-week">TREES</div>
-      <div class="tc-icon">🌳</div>
-      <div class="tc-name">BST Traversals</div>
-      <div class="tc-type">Inorder · Pre · Post</div>
-      <div class="tc-done">✓ Done</div>
-    </div>
-    <div class="topic-card" onclick="showTopic('games',null)" style="border-color:rgba(99,102,241,0.3);background:rgba(99,102,241,0.04)">
-      <div class="tc-week">TAKE A BREAK</div>
-      <div class="tc-icon">🎮</div>
-      <div class="tc-name">Study Games</div>
-      <div class="tc-type">quiz · memory · snake</div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== BINARY SEARCH ========== -->
-<div class="page" id="page-bs">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-dc">⚡ DIVIDE & CONQUER</div>
-  <div class="topic-title">Binary Search</div>
-  <p class="topic-sub">Search a sorted array by halving the search space each step. O(log n) — way faster than linear search.</p>
-
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">How It Works</div>
-    <p>Array must be <strong>sorted</strong>. Compare target with <strong>middle element</strong>. If smaller → search left half. If larger → search right half. Each step eliminates half the array.</p>
-    <div class="visual">
-<span class="st">Array: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91]   Target = 23</span>
-
-Step 1: low=0 mid=4 high=9  → arr[4]=<span class="ac">16</span> &lt; 23 → go RIGHT
-Step 2: low=5 mid=7 high=9  → arr[7]=<span class="ac">56</span> &gt; 23 → go LEFT
-Step 3: low=5 mid=5 high=6  → arr[5]=<span class="ok">23 ✓ FOUND at index 5!</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Algorithm</div>
-    <div class="algo-box">
-      <span class="algo-label">PSEUDOCODE</span>
-<span class="fn">BinarySearch</span>(<span class="vl">arr</span>, <span class="vl">low</span>, <span class="vl">high</span>, <span class="vl">key</span>)
-{
-  <span class="kw">while</span> (low ≤ high) <span class="kw">do</span>
-  {
-    mid := (low + high) / <span class="vl">2</span>;
-    <span class="kw">if</span> (arr[mid] = key) <span class="kw">then return</span> mid;
-    <span class="kw">else if</span> (arr[mid] &lt; key) <span class="kw">then</span> low := mid + <span class="vl">1</span>;
-    <span class="kw">else</span> high := mid - <span class="vl">1</span>;
-  }
-  <span class="kw">return</span> <span class="vl">-1</span>; <span class="cm">// Not found</span>
-}</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Complexity</div>
-    <div class="cx-grid">
-      <div class="cx-item best"><div class="cx-lbl">Best</div><div class="cx-val">O(1)</div></div>
-      <div class="cx-item avg"><div class="cx-lbl">Average</div><div class="cx-val">O(log n)</div></div>
-      <div class="cx-item worst"><div class="cx-lbl">Worst</div><div class="cx-val">O(log n)</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Java Code</div>
-    <div class="code-wrap">
-      <div class="code-header">
-        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
-        <span class="lang-tag">Java</span>
-        <button class="copy-btn" onclick="copyCode(this,'bscode')">copy</button>
+    <div class="topics-grid">
+      <div class="topic-card" onclick="showTopic('binary')" id="card-binary">
+        <div class="topic-icon">🔍</div>
+        <div class="topic-info">
+          <div class="topic-cat">Divide &amp; Conquer</div>
+          <div class="topic-name">Binary Search</div>
+          <div class="topic-complexity">O(log n)</div>
+        </div>
+        <div class="topic-done" id="done-binary"></div>
       </div>
-      <pre id="bscode"><span class="kw">import</span> java.util.Scanner;
+      <div class="topic-card" onclick="showTopic('quick')" id="card-quick">
+        <div class="topic-icon">⚡</div>
+        <div class="topic-info">
+          <div class="topic-cat">Divide &amp; Conquer</div>
+          <div class="topic-name">Quick Sort</div>
+          <div class="topic-complexity">O(n log n) avg</div>
+        </div>
+        <div class="topic-done" id="done-quick"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('merge')" id="card-merge">
+        <div class="topic-icon">🔀</div>
+        <div class="topic-info">
+          <div class="topic-cat">Divide &amp; Conquer</div>
+          <div class="topic-name">Merge Sort</div>
+          <div class="topic-complexity">O(n log n)</div>
+        </div>
+        <div class="topic-done" id="done-merge"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('bfsdfs')" id="card-bfsdfs">
+        <div class="topic-icon">🌐</div>
+        <div class="topic-info">
+          <div class="topic-cat">Graph</div>
+          <div class="topic-name">BFS &amp; DFS</div>
+          <div class="topic-complexity">O(V+E)</div>
+        </div>
+        <div class="topic-done" id="done-bfsdfs"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('ap')" id="card-ap">
+        <div class="topic-icon">🔗</div>
+        <div class="topic-info">
+          <div class="topic-cat">Week 2</div>
+          <div class="topic-name">AP &amp; Biconnected</div>
+          <div class="topic-complexity">O(V+E)</div>
+        </div>
+        <div class="topic-done" id="done-ap"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('dijkstra')" id="card-dijkstra">
+        <div class="topic-icon">🗺️</div>
+        <div class="topic-info">
+          <div class="topic-cat">Week 4</div>
+          <div class="topic-name">Dijkstra's</div>
+          <div class="topic-complexity">O(V²)</div>
+        </div>
+        <div class="topic-done" id="done-dijkstra"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('mst')" id="card-mst">
+        <div class="topic-icon">🌲</div>
+        <div class="topic-info">
+          <div class="topic-cat">Week 3</div>
+          <div class="topic-name">Prim's &amp; Kruskal's</div>
+          <div class="topic-complexity">MST algorithms</div>
+        </div>
+        <div class="topic-done" id="done-mst"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('job')" id="card-job">
+        <div class="topic-icon">📋</div>
+        <div class="topic-info">
+          <div class="topic-cat">Week 5</div>
+          <div class="topic-name">Job Sequencing</div>
+          <div class="topic-complexity">Greedy O(n²)</div>
+        </div>
+        <div class="topic-done" id="done-job"></div>
+      </div>
+      <div class="topic-card" onclick="showTopic('bst')" id="card-bst">
+        <div class="topic-icon">🌳</div>
+        <div class="topic-info">
+          <div class="topic-cat">Trees</div>
+          <div class="topic-name">BST Traversals</div>
+          <div class="topic-complexity">Inorder · Pre · Post</div>
+        </div>
+        <div class="topic-done" id="done-bst"></div>
+      </div>
+    </div>
+  </div>
 
-<span class="kw">public class</span> <span class="tp">BinarySearch</span> {
+  <!-- ============ TOPIC PAGES ============ -->
 
-    <span class="kw">static int</span> <span class="fn">binarySearch</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> key) {
-        <span class="kw">int</span> low = <span class="nm">0</span>, high = arr.length - <span class="nm">1</span>;
-        <span class="kw">while</span> (low &lt;= high) {
-            <span class="kw">int</span> mid = (low + high) / <span class="nm">2</span>;
-            <span class="kw">if</span> (arr[mid] == key)       <span class="kw">return</span> mid;
-            <span class="kw">else if</span> (arr[mid] &lt; key)   low = mid + <span class="nm">1</span>;
-            <span class="kw">else</span>                        high = mid - <span class="nm">1</span>;
+  <!-- BINARY SEARCH -->
+  <div class="topic-page" id="page-binary">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">⚡ DIVIDE &amp; CONQUER</div>
+      <div class="topic-title">Binary Search</div>
+      <div class="topic-desc">Search a sorted array by halving the search space each step. O(log n) — way faster than linear search.</div>
+    </div>
+
+    <div class="section-title">How It Works</div>
+    <div class="viz-box">Array must be <span class="highlight">sorted</span>. Compare target with <span class="highlight">middle element</span>.
+If smaller → search left half. If larger → search right half.
+
+Array: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91]  Target = 23
+Step 1: low=0 mid=4 high=9 → arr[4]=16 &lt; 23 → go <span class="accent">RIGHT</span>
+Step 2: low=5 mid=7 high=9 → arr[7]=56 &gt; 23 → go <span class="accent">LEFT</span>
+Step 3: low=5 mid=5 high=6 → arr[5]=23 <span class="highlight">✓ FOUND at index 5!</span></div>
+
+    <div class="section-title">Algorithm</div>
+    <div class="algo-box">
+      <div class="algo-box-header">PSEUDOCODE</div>
+      <pre>BinarySearch(arr, low, high, key)
+{
+  while (low ≤ high) do
+  {
+    mid := (low + high) / 2;
+    if (arr[mid] = key) then return mid;
+    else if (arr[mid] &lt; key) then low := mid + 1;
+    else high := mid - 1;
+  }
+  return -1;  // Not found
+}</pre>
+    </div>
+
+    <div class="section-title">Complexity</div>
+    <div class="complexity-grid">
+      <div class="complexity-card"><div class="complexity-label">Best</div><div class="complexity-val good">O(1)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Average</div><div class="complexity-val">O(log n)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Worst</div><div class="complexity-val">O(log n)</div></div>
+    </div>
+
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
+
+public class BinarySearch {
+
+    static int binarySearch(int[] arr, int key) {
+        int low = 0, high = arr.length - 1;
+        while (low &lt;= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == key)       return mid;
+            else if (arr[mid] &lt; key)   low = mid + 1;
+            else                        high = mid - 1;
         }
-        <span class="kw">return</span> <span class="nm">-1</span>;
+        return -1;
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter number of elements: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="kw">int</span>[] arr = <span class="kw">new int</span>[n];
-        System.out.println(<span class="st">"Enter sorted elements:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) arr[i] = sc.nextInt();
-        System.out.print(<span class="st">"Enter key to search: "</span>);
-        <span class="kw">int</span> key = sc.nextInt();
-        <span class="kw">int</span> result = <span class="fn">binarySearch</span>(arr, key);
-        <span class="kw">if</span> (result != <span class="nm">-1</span>)
-            System.out.println(<span class="st">"Found at index: "</span> + result);
-        <span class="kw">else</span>
-            System.out.println(<span class="st">"Element not found"</span>);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter sorted elements:");
+        for (int i = 0; i &lt; n; i++) arr[i] = sc.nextInt();
+        System.out.print("Enter key to search: ");
+        int key = sc.nextInt();
+        int result = binarySearch(arr, key);
+        if (result != -1)
+            System.out.println("Found at index: " + result);
+        else
+            System.out.println("Element not found");
     }
 }</pre>
     </div>
+    <button class="done-btn" id="btn-binary" onclick="markDone('binary')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('bs',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== QUICK SORT ========== -->
-<div class="page" id="page-qs">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-dc">⚡ DIVIDE & CONQUER</div>
-  <div class="topic-title">Quick Sort</div>
-  <p class="topic-sub">Pick a pivot, place smaller elements left and larger right. Pivot is now in final position. Recurse on both halves.</p>
+  <!-- QUICK SORT -->
+  <div class="topic-page" id="page-quick">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">⚡ DIVIDE &amp; CONQUER</div>
+      <div class="topic-title">Quick Sort</div>
+      <div class="topic-desc">Pick a pivot, place smaller elements left and larger right. Pivot is now in final position. Recurse on both halves.</div>
+    </div>
 
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Partition Step</div>
-    <div class="visual">
-<span class="st">Array: [10, 80, 30, 90, 40, 50, 70]   Pivot = 70 (last)</span>
-
+    <div class="section-title">Partition Step</div>
+    <div class="viz-box">Array: [10, 80, 30, 90, 40, 50, 70]  Pivot = 70 (last)
 i = -1
-j=0: 10 &lt; 70 → i=0 → [<span class="ok">10</span>, 80, 30, 90, 40, 50, 70]
-j=2: 30 &lt; 70 → i=1 → [<span class="ok">10, 30</span>, 80, 90, 40, 50, 70]
-j=4: 40 &lt; 70 → i=2 → [<span class="ok">10, 30, 40</span>, 90, 80, 50, 70]
-j=5: 50 &lt; 70 → i=3 → [<span class="ok">10, 30, 40, 50</span>, 80, 90, 70]
-swap arr[4] with pivot → [<span class="ok">10,30,40,50</span> <span class="ac">70</span> <span class="hi">90,80</span>] ✓</div>
-  </div>
+j=0: 10 &lt; 70 → i=0 → [<span class="highlight">10</span>, 80, 30, 90, 40, 50, 70]
+j=2: 30 &lt; 70 → i=1 → [10, <span class="highlight">30</span>, 80, 90, 40, 50, 70]
+j=4: 40 &lt; 70 → i=2 → [10, 30, <span class="highlight">40</span>, 90, 80, 50, 70]
+j=5: 50 &lt; 70 → i=3 → [10, 30, 40, <span class="highlight">50</span>, 80, 90, 70]
+swap arr[4] with pivot → [10,30,40,50 <span class="accent">70</span> 90,80] ✓</div>
 
-  <div class="card">
-    <div class="card-label">Algorithm</div>
+    <div class="section-title">Algorithm</div>
     <div class="algo-box">
-<span class="fn">QuickSort</span>(<span class="vl">arr</span>, <span class="vl">low</span>, <span class="vl">high</span>)
+      <div class="algo-box-header">PSEUDOCODE</div>
+      <pre>QuickSort(arr, low, high)
 {
-  <span class="kw">if</span> (low &lt; high) <span class="kw">then</span>
+  if (low &lt; high) then
   {
-    pi := <span class="fn">Partition</span>(arr, low, high);
-    <span class="fn">QuickSort</span>(arr, low, pi-<span class="vl">1</span>);
-    <span class="fn">QuickSort</span>(arr, pi+<span class="vl">1</span>, high);
+    pi := Partition(arr, low, high);
+    QuickSort(arr, low, pi-1);
+    QuickSort(arr, pi+1, high);
   }
 }
-<span class="fn">Partition</span>(<span class="vl">arr</span>, <span class="vl">low</span>, <span class="vl">high</span>)
+
+Partition(arr, low, high)
 {
-  pivot := arr[high];  i := low - <span class="vl">1</span>;
-  <span class="kw">for</span> j := low <span class="kw">to</span> high-<span class="vl">1</span> <span class="kw">do</span>
-    <span class="kw">if</span> (arr[j] ≤ pivot) <span class="kw">then</span> { i++; swap(arr[i], arr[j]); }
-  swap(arr[i+<span class="vl">1</span>], arr[high]);
-  <span class="kw">return</span> i+<span class="vl">1</span>;
-}</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Complexity</div>
-    <div class="cx-grid">
-      <div class="cx-item best"><div class="cx-lbl">Best</div><div class="cx-val">O(n log n)</div></div>
-      <div class="cx-item avg"><div class="cx-lbl">Average</div><div class="cx-val">O(n log n)</div></div>
-      <div class="cx-item worst"><div class="cx-lbl">Worst (sorted)</div><div class="cx-val">O(n²)</div></div>
+  pivot := arr[high];  i := low - 1;
+  for j := low to high-1 do
+    if (arr[j] ≤ pivot) then { i++; swap(arr[i], arr[j]); }
+  swap(arr[i+1], arr[high]);
+  return i+1;
+}</pre>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-label">Java Code</div>
-    <div class="code-wrap">
-      <div class="code-header">
-        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
-        <span class="lang-tag">Java</span>
-        <button class="copy-btn" onclick="copyCode(this,'qscode')">copy</button>
-      </div>
-      <pre id="qscode"><span class="kw">import</span> java.util.Scanner;
+    <div class="section-title">Complexity</div>
+    <div class="complexity-grid">
+      <div class="complexity-card"><div class="complexity-label">Best</div><div class="complexity-val good">O(n log n)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Average</div><div class="complexity-val">O(n log n)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Worst (sorted)</div><div class="complexity-val bad">O(n²)</div></div>
+    </div>
 
-<span class="kw">public class</span> <span class="tp">QuickSort</span> {
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
 
-    <span class="kw">static int</span> <span class="fn">partition</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> low, <span class="kw">int</span> high) {
-        <span class="kw">int</span> pivot = arr[high], i = low - <span class="nm">1</span>;
-        <span class="kw">for</span> (<span class="kw">int</span> j = low; j &lt; high; j++) {
-            <span class="kw">if</span> (arr[j] &lt;= pivot) {
+public class QuickSort {
+
+    static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high], i = low - 1;
+        for (int j = low; j &lt; high; j++) {
+            if (arr[j] &lt;= pivot) {
                 i++;
-                <span class="kw">int</span> tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+                int tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
             }
         }
-        <span class="kw">int</span> tmp = arr[i+<span class="nm">1</span>]; arr[i+<span class="nm">1</span>] = arr[high]; arr[high] = tmp;
-        <span class="kw">return</span> i + <span class="nm">1</span>;
+        int tmp = arr[i+1]; arr[i+1] = arr[high]; arr[high] = tmp;
+        return i + 1;
     }
 
-    <span class="kw">static void</span> <span class="fn">quickSort</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> low, <span class="kw">int</span> high) {
-        <span class="kw">if</span> (low &lt; high) {
-            <span class="kw">int</span> pi = <span class="fn">partition</span>(arr, low, high);
-            <span class="fn">quickSort</span>(arr, low, pi - <span class="nm">1</span>);
-            <span class="fn">quickSort</span>(arr, pi + <span class="nm">1</span>, high);
+    static void quickSort(int[] arr, int low, int high) {
+        if (low &lt; high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
         }
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter number of elements: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="kw">int</span>[] arr = <span class="kw">new int</span>[n];
-        System.out.println(<span class="st">"Enter elements:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) arr[i] = sc.nextInt();
-        <span class="fn">quickSort</span>(arr, <span class="nm">0</span>, n - <span class="nm">1</span>);
-        System.out.print(<span class="st">"Sorted: "</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> x : arr) System.out.print(x + <span class="st">" "</span>);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for (int i = 0; i &lt; n; i++) arr[i] = sc.nextInt();
+        quickSort(arr, 0, n - 1);
+        System.out.print("Sorted: ");
+        for (int x : arr) System.out.print(x + " ");
     }
 }</pre>
     </div>
+    <button class="done-btn" id="btn-quick" onclick="markDone('quick')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('qs',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== MERGE SORT ========== -->
-<div class="page" id="page-ms">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-dc">⚡ DIVIDE & CONQUER</div>
-  <div class="topic-title">Merge Sort</div>
-  <p class="topic-sub">Divide array in half recursively until single elements, then merge sorted halves back together.</p>
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Visualization</div>
-    <div class="visual">
-<span class="st">Original:</span> [<span class="ac">38  27  43  3  9  82  10</span>]
-Split:     [<span class="hi">38 27 43</span>]  [<span class="hi">3 9 82 10</span>]
-           [<span class="hi">38</span>][<span class="hi">27 43</span>] [<span class="hi">3 9</span>][<span class="hi">82 10</span>]
-Merge up:  [<span class="ok">27 38</span>]→[<span class="ok">27 38 43</span>]  [<span class="ok">3 9</span>]→[<span class="ok">3 9 10 82</span>]
-Final:     [<span class="ok">3  9  10  27  38  43  82</span>] ✓</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Algorithm</div>
+  <!-- MERGE SORT -->
+  <div class="topic-page" id="page-merge">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">⚡ DIVIDE &amp; CONQUER</div>
+      <div class="topic-title">Merge Sort</div>
+      <div class="topic-desc">Divide array in half recursively until single elements, then merge sorted halves back together.</div>
+    </div>
+
+    <div class="section-title">Visualization</div>
+    <div class="viz-box">Original:  [38 27 43 3 9 82 10]
+Split:     [38 27 43]  [3 9 82 10]
+           [38][27 43] [3 9][82 10]
+Merge up:  [27 38]→[27 38 43]  [3 9]→[3 9 10 82]
+Final:     <span class="highlight">[3 9 10 27 38 43 82] ✓</span></div>
+
+    <div class="section-title">Algorithm</div>
     <div class="algo-box">
-<span class="fn">MergeSort</span>(<span class="vl">arr</span>, <span class="vl">low</span>, <span class="vl">high</span>)
+      <div class="algo-box-header">PSEUDOCODE</div>
+      <pre>MergeSort(arr, low, high)
 {
-  <span class="kw">if</span> (low &lt; high) <span class="kw">then</span>
+  if (low &lt; high) then
   {
-    mid := (low + high) / <span class="vl">2</span>;
-    <span class="fn">MergeSort</span>(arr, low, mid);
-    <span class="fn">MergeSort</span>(arr, mid+<span class="vl">1</span>, high);
-    <span class="fn">Merge</span>(arr, low, mid, high);
+    mid := (low + high) / 2;
+    MergeSort(arr, low, mid);
+    MergeSort(arr, mid+1, high);
+    Merge(arr, low, mid, high);
   }
-}</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Complexity</div>
-    <div class="cx-grid">
-      <div class="cx-item best"><div class="cx-lbl">Best</div><div class="cx-val">O(n log n)</div></div>
-      <div class="cx-item avg"><div class="cx-lbl">Average</div><div class="cx-val">O(n log n)</div></div>
-      <div class="cx-item worst"><div class="cx-lbl">Worst</div><div class="cx-val">O(n log n)</div></div>
+}
+
+Merge(arr, l, m, r)
+{
+  Create L[0..n1], R[0..n2];
+  Copy arr[l..m] → L,  arr[m+1..r] → R;
+  i := 0; j := 0; k := l;
+  while (i &lt; n1 and j &lt; n2) do
+    if (L[i] ≤ R[j]) then arr[k++] := L[i++]
+    else arr[k++] := R[j++];
+  Copy remaining elements;
+}</pre>
     </div>
-    <p style="margin-top:10px;font-size:12px;color:var(--muted)">🌟 Always O(n log n) but needs O(n) extra space. Stable sort.</p>
-  </div>
-  <div class="card">
-    <div class="card-label">Java Code</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'mscode')">copy</button></div>
-      <pre id="mscode"><span class="kw">import</span> java.util.Scanner;
 
-<span class="kw">public class</span> <span class="tp">MergeSort</span> {
+    <div class="section-title">Complexity</div>
+    <div class="complexity-grid">
+      <div class="complexity-card"><div class="complexity-label">Best</div><div class="complexity-val good">O(n log n)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Average</div><div class="complexity-val">O(n log n)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Worst</div><div class="complexity-val">O(n log n)</div></div>
+    </div>
+    <div class="note-box">🌟 Always O(n log n) but needs O(n) extra space. Stable sort.</div>
 
-    <span class="kw">static void</span> <span class="fn">merge</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> l, <span class="kw">int</span> m, <span class="kw">int</span> r) {
-        <span class="kw">int</span> n1 = m-l+<span class="nm">1</span>, n2 = r-m;
-        <span class="kw">int</span>[] L = <span class="kw">new int</span>[n1], R = <span class="kw">new int</span>[n2];
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;n1; i++) L[i] = arr[l+i];
-        <span class="kw">for</span> (<span class="kw">int</span> j=<span class="nm">0</span>; j&lt;n2; j++) R[j] = arr[m+<span class="nm">1</span>+j];
-        <span class="kw">int</span> i=<span class="nm">0</span>, j=<span class="nm">0</span>, k=l;
-        <span class="kw">while</span> (i&lt;n1 &amp;&amp; j&lt;n2)
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
+
+public class MergeSort {
+
+    static void merge(int[] arr, int l, int m, int r) {
+        int n1 = m-l+1, n2 = r-m;
+        int[] L = new int[n1], R = new int[n2];
+        for (int i=0; i&lt;n1; i++) L[i] = arr[l+i];
+        for (int j=0; j&lt;n2; j++) R[j] = arr[m+1+j];
+        int i=0, j=0, k=l;
+        while (i&lt;n1 &amp;&amp; j&lt;n2)
             arr[k++] = (L[i]&lt;=R[j]) ? L[i++] : R[j++];
-        <span class="kw">while</span> (i&lt;n1) arr[k++]=L[i++];
-        <span class="kw">while</span> (j&lt;n2) arr[k++]=R[j++];
+        while (i&lt;n1) arr[k++]=L[i++];
+        while (j&lt;n2) arr[k++]=R[j++];
     }
 
-    <span class="kw">static void</span> <span class="fn">mergeSort</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> l, <span class="kw">int</span> r) {
-        <span class="kw">if</span> (l &lt; r) {
-            <span class="kw">int</span> m = (l+r)/<span class="nm">2</span>;
-            <span class="fn">mergeSort</span>(arr, l, m);
-            <span class="fn">mergeSort</span>(arr, m+<span class="nm">1</span>, r);
-            <span class="fn">merge</span>(arr, l, m, r);
+    static void mergeSort(int[] arr, int l, int r) {
+        if (l &lt; r) {
+            int m = (l+r)/2;
+            mergeSort(arr, l, m);
+            mergeSort(arr, m+1, r);
+            merge(arr, l, m, r);
         }
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter number of elements: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="kw">int</span>[] arr = <span class="kw">new int</span>[n];
-        System.out.println(<span class="st">"Enter elements:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;n; i++) arr[i] = sc.nextInt();
-        <span class="fn">mergeSort</span>(arr, <span class="nm">0</span>, n-<span class="nm">1</span>);
-        System.out.print(<span class="st">"Sorted: "</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> x : arr) System.out.print(x + <span class="st">" "</span>);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for (int i=0; i&lt;n; i++) arr[i] = sc.nextInt();
+        mergeSort(arr, 0, n-1);
+        System.out.print("Sorted: ");
+        for (int x : arr) System.out.print(x + " ");
     }
 }</pre>
     </div>
+    <button class="done-btn" id="btn-merge" onclick="markDone('merge')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('ms',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== BFS & DFS ========== -->
-<div class="page" id="page-bfsdfs">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-graph">🌐 GRAPH TRAVERSAL</div>
-  <div class="topic-title">BFS & DFS</div>
-  <p class="topic-sub">BFS uses a Queue — level by level. DFS uses recursion/Stack — deep first. Both visit every node once: O(V+E).</p>
-  <div class="grid2" style="margin-top:20px">
-    <div class="card">
-      <div class="card-label">BFS — uses Queue</div>
-      <div class="visual">
-<span class="st">1→[2,3], 2→[4,5], 3→[6]</span>
-Q:[<span class="ac">1</span>] → visit 1
-Q:[<span class="hi">2,3</span>] → visit 2
-Q:[<span class="hi">3,4,5</span>] → visit 3
-Q:[<span class="hi">4,5,6</span>] → done
-<span class="ok">Order: 1 2 3 4 5 6</span></div>
+  <!-- BFS & DFS -->
+  <div class="topic-page" id="page-bfsdfs">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">🌐 GRAPH TRAVERSAL</div>
+      <div class="topic-title">BFS &amp; DFS</div>
+      <div class="topic-desc">BFS uses a Queue — level by level. DFS uses recursion/Stack — deep first. Both visit every node once: O(V+E).</div>
     </div>
-    <div class="card">
-      <div class="card-label">DFS — uses Recursion</div>
-      <div class="visual">
-<span class="st">Same graph</span>
-visit <span class="ac">1</span> → recurse 2
-  visit <span class="ac">2</span> → recurse 4
-    visit <span class="ac">4</span> ← back
-  visit <span class="ac">5</span> ← back
-visit <span class="ac">3</span> → visit <span class="ac">6</span>
-<span class="ok">Order: 1 2 4 5 3 6</span></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div>
+        <div class="section-title">BFS — uses Queue</div>
+        <div class="viz-box" style="font-size:11px;">1→[2,3], 2→[4,5], 3→[6]
+Q:[1] → visit 1
+Q:[2,3] → visit 2
+Q:[3,4,5] → visit 3
+Q:[4,5,6] → done
+Order: <span class="highlight">1 2 3 4 5 6</span></div>
+      </div>
+      <div>
+        <div class="section-title">DFS — uses Recursion</div>
+        <div class="viz-box" style="font-size:11px;">Same graph
+visit 1 → recurse 2
+visit 2 → recurse 4
+visit 4 ← back
+visit 5 ← back
+visit 3 → visit 6
+Order: <span class="highlight">1 2 4 5 3 6</span></div>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-label">Java Code — BFS + DFS</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'bfscode')">copy</button></div>
-      <pre id="bfscode"><span class="kw">import</span> java.util.*;
 
-<span class="kw">public class</span> <span class="tp">GraphTraversal</span> {
-    <span class="kw">static int</span>[][] adj;
-    <span class="kw">static boolean</span>[] visited;
-    <span class="kw">static int</span> n;
+    <div class="section-title">Algorithm</div>
+    <div class="algo-box">
+      <div class="algo-box-header">PSEUDOCODE</div>
+      <pre>BFS(graph, start)
+{
+  Mark start as visited; Enqueue(Q, start);
+  while (Q not empty) do
+  {
+    v := Dequeue(Q); print(v);
+    for each w adjacent to v do
+      if (w not visited) then
+        { Mark w visited; Enqueue(Q, w); }
+  }
+}
 
-    <span class="kw">static void</span> <span class="fn">bfs</span>(<span class="kw">int</span> start) {
-        Queue&lt;Integer&gt; queue = <span class="kw">new</span> LinkedList&lt;&gt;();
-        visited[start] = <span class="kw">true</span>;
+DFS(graph, v)
+{
+  Mark v as visited; print(v);
+  for each w adjacent to v do
+    if (w not visited) then DFS(graph, w);
+}</pre>
+    </div>
+
+    <div class="section-title">Java Code — BFS + DFS</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.*;
+
+public class GraphTraversal {
+    static int[][] adj;
+    static boolean[] visited;
+    static int n;
+
+    static void bfs(int start) {
+        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+        visited[start] = true;
         queue.add(start);
-        <span class="kw">while</span> (!queue.isEmpty()) {
-            <span class="kw">int</span> v = queue.poll();
-            System.out.print(v + <span class="st">" "</span>);
-            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= n; i++)
-                <span class="kw">if</span> (adj[v][i] == <span class="nm">1</span> &amp;&amp; !visited[i]) {
-                    visited[i] = <span class="kw">true</span>;
+        while (!queue.isEmpty()) {
+            int v = queue.poll();
+            System.out.print(v + " ");
+            for (int i = 1; i &lt;= n; i++)
+                if (adj[v][i] == 1 &amp;&amp; !visited[i]) {
+                    visited[i] = true;
                     queue.add(i);
                 }
         }
     }
 
-    <span class="kw">static void</span> <span class="fn">dfs</span>(<span class="kw">int</span> v) {
-        visited[v] = <span class="kw">true</span>;
-        System.out.print(v + <span class="st">" "</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= n; i++)
-            <span class="kw">if</span> (adj[v][i] == <span class="nm">1</span> &amp;&amp; !visited[i])
-                <span class="fn">dfs</span>(i);
+    static void dfs(int v) {
+        visited[v] = true;
+        System.out.print(v + " ");
+        for (int i = 1; i &lt;= n; i++)
+            if (adj[v][i] == 1 &amp;&amp; !visited[i])
+                dfs(i);
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter vertices and edges: "</span>);
-        n = sc.nextInt(); <span class="kw">int</span> e = sc.nextInt();
-        adj = <span class="kw">new int</span>[n+<span class="nm">1</span>][n+<span class="nm">1</span>];
-        visited = <span class="kw">new boolean</span>[n+<span class="nm">1</span>];
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;e; i++) {
-            <span class="kw">int</span> u=sc.nextInt(), v=sc.nextInt();
-            adj[u][v] = adj[v][u] = <span class="nm">1</span>;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter vertices and edges: ");
+        n = sc.nextInt(); int e = sc.nextInt();
+        adj = new int[n+1][n+1];
+        visited = new boolean[n+1];
+        for (int i=0; i&lt;e; i++) {
+            int u=sc.nextInt(), v=sc.nextInt();
+            adj[u][v] = adj[v][u] = 1;
         }
-        System.out.print(<span class="st">"BFS: "</span>); <span class="fn">bfs</span>(<span class="nm">1</span>);
-        Arrays.fill(visited, <span class="kw">false</span>);
-        System.out.print(<span class="st">"\nDFS: "</span>); <span class="fn">dfs</span>(<span class="nm">1</span>);
+        System.out.print("BFS: "); bfs(1);
+        Arrays.fill(visited, false);
+        System.out.print("\nDFS: "); dfs(1);
     }
 }</pre>
     </div>
+    <button class="done-btn" id="btn-bfsdfs" onclick="markDone('bfsdfs')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('bfsdfs',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== AP & BICONNECTED ========== -->
-<div class="page" id="page-ap">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-graph">🔗 WEEK 2 — MA'AM'S EXACT CODE</div>
-  <div class="topic-title">Articulation Points & Biconnected Components</div>
-  <p class="topic-sub">An Articulation Point (AP) is a vertex whose removal disconnects the graph. Biconnected components are maximal subgraphs with no APs.</p>
+  <!-- AP & BICONNECTED -->
+  <div class="topic-page" id="page-ap">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">🔗 WEEK 2 — </div>
+      <div class="topic-title">Articulation Points &amp; Biconnected Components</div>
+      <div class="topic-desc">An Articulation Point (AP) is a vertex whose removal disconnects the graph. Biconnected components are maximal subgraphs with no APs.</div>
+    </div>
 
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Algorithm Art(u, v) — Exact from Doc</div>
+    <div class="section-title">Algorithm Art(u, v)</div>
     <div class="algo-box">
-      <span class="algo-label">MA'AM'S ALGORITHM</span>
-<span class="cm">// u is start vertex for DFS. v is its parent.</span>
-<span class="cm">// dfn[] initialized to 0, num initialized to 1.</span>
-<span class="fn">Art</span>(<span class="vl">u</span>, <span class="vl">v</span>)
+      <div class="algo-box-header">MA'AM'S ALGORITHM</div>
+      <pre>// u is start vertex for DFS. v is its parent.
+// dfn[] initialized to 0, num initialized to 1.
+Art(u, v)
 {
-    dfn[u] := num;  L[u] := num;  num := num + <span class="vl">1</span>;
-    <span class="kw">for each</span> vertex w adjacent <span class="kw">from</span> u <span class="kw">do</span>
+  dfn[u] := num;  L[u] := num;  num := num + 1;
+  for each vertex w adjacent from u do
+  {
+    if (dfn[w] = 0) then
     {
-        <span class="kw">if</span> (dfn[w] = <span class="vl">0</span>) <span class="kw">then</span>
-        {
-            <span class="fn">Art</span>(w, u); <span class="cm">// w is unvisited</span>
-            L[u] := min(L[u], L[w]);
-        }
-        <span class="kw">else if</span> (w ≠ v) <span class="kw">then</span>  L[u] := min(L[u], dfn[w]);
+      Art(w, u);         // w is unvisited
+      L[u] := min(L[u], L[w]);
     }
-}</div>
-  </div>
+    else if (w ≠ v) then  L[u] := min(L[u], dfn[w]);
+  }
+}</pre>
+    </div>
 
-  <div class="card">
-    <div class="card-label">Java Code — Exact from Ma'am's Document (Week 2)</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'apcode')">copy</button></div>
-      <pre id="apcode"><span class="kw">import</span> java.util.*;
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.*;
 
-<span class="kw">class</span> <span class="tp">BiconnectedComponents</span> {
-    <span class="kw">static final int</span> MAX = <span class="nm">20</span>;
-    <span class="kw">static int</span>[] dfn = <span class="kw">new int</span>[MAX], l = <span class="kw">new int</span>[MAX];
-    <span class="kw">static int</span> num = <span class="nm">1</span>, n;
-    <span class="kw">static int</span>[][] adjMatrix = <span class="kw">new int</span>[MAX][MAX];
-    <span class="kw">static</span> Stack&lt;Edge&gt; stack = <span class="kw">new</span> Stack&lt;&gt;();
+class BiconnectedComponents {
+    static final int MAX = 20;
+    static int[] dfn = new int[MAX], l = new int[MAX];
+    static int num = 1, n;
+    static int[][] adjMatrix = new int[MAX][MAX];
+    static Stack&lt;Edge&gt; stack = new Stack&lt;&gt;();
 
-    <span class="kw">static class</span> <span class="tp">Edge</span> {
-        <span class="kw">int</span> u, v;
-        <span class="tp">Edge</span>(<span class="kw">int</span> u, <span class="kw">int</span> v) { <span class="kw">this</span>.u = u; <span class="kw">this</span>.v = v; }
+    static class Edge {
+        int u, v;
+        Edge(int u, int v) { this.u = u; this.v = v; }
     }
 
-    <span class="kw">static void</span> <span class="fn">bicomp</span>(<span class="kw">int</span> u, <span class="kw">int</span> v) {
-        dfn[u] = num;
-        l[u]   = num;
-        num++;
-        <span class="kw">for</span> (<span class="kw">int</span> w = <span class="nm">1</span>; w &lt;= n; w++) {
-            <span class="kw">if</span> (adjMatrix[u][w] == <span class="nm">1</span>) {
-                <span class="kw">if</span> ((v != w) &amp;&amp; (dfn[w] &lt; dfn[u])) {
-                    stack.push(<span class="kw">new</span> <span class="tp">Edge</span>(u, w));
-                    System.out.println(<span class="st">"\nEdge "</span> + u + <span class="st">" -- "</span> + w + <span class="st">" is pushed onto stack."</span>);
+    static void bicomp(int u, int v) {
+        dfn[u] = num;  l[u] = num;  num++;
+        for (int w = 1; w &lt;= n; w++) {
+            if (adjMatrix[u][w] == 1) {
+                if ((v != w) &amp;&amp; (dfn[w] &lt; dfn[u])) {
+                    stack.push(new Edge(u, w));
+                    System.out.println("Edge " + u + " -- " + w + " pushed.");
                 }
-                <span class="kw">if</span> (dfn[w] == <span class="nm">0</span>) {
-                    <span class="fn">bicomp</span>(w, u);
+                if (dfn[w] == 0) {
+                    bicomp(w, u);
                     l[u] = Math.min(l[u], l[w]);
-                    <span class="kw">if</span> (l[w] &gt;= dfn[u]) {
-                        System.out.println(<span class="st">"\nNew Biconnected Component for Articulation Point "</span> + u + <span class="st">":"</span>);
-                        <span class="tp">Edge</span> e;
-                        <span class="kw">do</span> {
+                    if (l[w] &gt;= dfn[u]) {
+                        System.out.println("Biconnected Component (AP=" + u + "):");
+                        Edge e;
+                        do {
                             e = stack.pop();
-                            System.out.print(e.u + <span class="st">"--"</span> + e.v + <span class="st">" "</span>);
-                        } <span class="kw">while</span> (!((e.u==u &amp;&amp; e.v==w) || (e.u==w &amp;&amp; e.v==u)));
+                            System.out.print(e.u + "--" + e.v + " ");
+                        } while (!((e.u==u &amp;&amp; e.v==w) || (e.u==w &amp;&amp; e.v==u)));
                         System.out.println();
                     }
-                } <span class="kw">else if</span> (w != v) {
+                } else if (w != v) {
                     l[u] = Math.min(l[u], dfn[w]);
                 }
             }
         }
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter the number of vertices in the graph: "</span>);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of vertices: ");
         n = sc.nextInt();
-        Arrays.fill(dfn, <span class="nm">0</span>);
-        Arrays.fill(l, <span class="nm">0</span>);
-        System.out.println(<span class="st">"\nEnter the adjacency matrix of Graph G ("</span> + n + <span class="st">" x "</span> + n + <span class="st">"):"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++)
-            <span class="kw">for</span> (<span class="kw">int</span> j=<span class="nm">1</span>; j&lt;=n; j++)
+        Arrays.fill(dfn, 0);  Arrays.fill(l, 0);
+        System.out.println("Enter adjacency matrix:");
+        for (int i=1; i&lt;=n; i++)
+            for (int j=1; j&lt;=n; j++)
                 adjMatrix[i][j] = sc.nextInt();
-        System.out.println(<span class="st">"\nFinding the biconnected components..."</span>);
-        <span class="fn">bicomp</span>(<span class="nm">1</span>, <span class="nm">0</span>);
+        bicomp(1, 0);
         sc.close();
     }
 }
-
-<span class="cm">// Sample Input:
-// 5
+// Sample Input: 5 vertices
 // 0 1 1 0 0
 // 1 0 1 1 0
 // 1 1 0 1 1
 // 0 1 1 0 1
-// 0 0 1 1 0</span></pre>
+// 0 0 1 1 0</pre>
     </div>
+    <button class="done-btn" id="btn-ap" onclick="markDone('ap')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('ap',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== DIJKSTRA ========== -->
-<div class="page" id="page-dijk">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-graph">🗺️ WEEK 4 — MA'AM'S EXACT CODE</div>
-  <div class="topic-title">Dijkstra's Algorithm</div>
-  <p class="topic-sub">Shortest path from a source to all other vertices in a weighted graph. Greedy — always pick unvisited vertex with minimum distance.</p>
+  <!-- DIJKSTRA -->
+  <div class="topic-page" id="page-dijkstra">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">🗺️ WEEK 4 — </div>
+      <div class="topic-title">Dijkstra's Algorithm</div>
+      <div class="topic-desc">Shortest path from a source to all other vertices in a weighted graph. Greedy — always pick unvisited vertex with minimum distance.</div>
+    </div>
 
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Algorithm ShortestPaths — Exact from Doc</div>
+    <div class="section-title">Algorithm ShortestPaths</div>
     <div class="algo-box">
-      <span class="algo-label">MA'AM'S ALGORITHM</span>
-<span class="cm">// dist[j] = length of shortest path from v to j</span>
-<span class="fn">ShortestPaths</span>(<span class="vl">v</span>, <span class="vl">cost</span>, <span class="vl">dist</span>, <span class="vl">n</span>)
+      <div class="algo-box-header">MA'AM'S ALGORITHM</div>
+      <pre>// dist[j] = length of shortest path from v to j
+ShortestPaths(v, cost, dist, n)
 {
-    <span class="kw">for</span> i := <span class="vl">1</span> <span class="kw">to</span> n <span class="kw">do</span>
-      { S[i] := false;  dist[i] := cost[v, i]; }
-    S[v] := true;  dist[v] := <span class="vl">0.0</span>;
-    <span class="kw">for</span> num := <span class="vl">2</span> <span class="kw">to</span> n-<span class="vl">1</span> <span class="kw">do</span>
-    {
-        Choose u: not in S, dist[u] is minimum;
-        S[u] := true;
-        <span class="kw">for each</span> w adjacent to u with S[w]=false <span class="kw">do</span>
-            <span class="kw">if</span> (dist[w] &gt; dist[u] + cost[u,w]) <span class="kw">then</span>
-                dist[w] := dist[u] + cost[u,w];
+  for i := 1 to n do
+  {  S[i] := false;  dist[i] := cost[v, i];  }
+  S[v] := true;  dist[v] := 0.0;
+  for num := 2 to n-1 do
+  {
+    Choose u: not in S, dist[u] is minimum;
+    S[u] := true;
+    for each w adjacent to u with S[w]=false do
+      if (dist[w] > dist[u] + cost[u,w]) then
+        dist[w] := dist[u] + cost[u,w];
+  }
+}</pre>
+    </div>
+
+    <div class="section-title">Complexity</div>
+    <div class="complexity-grid">
+      <div class="complexity-card"><div class="complexity-label">Simple Array</div><div class="complexity-val">O(V²)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Min Heap</div><div class="complexity-val good">O((V+E)logV)</div></div>
+      <div class="complexity-card"><div class="complexity-label">Note</div><div class="complexity-val bad">No -ve edges!</div></div>
+    </div>
+
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
+
+public class Dijkstra {
+    static final int MAX = 999;
+    static final int MAX_N = 100;
+
+    static int minDistance(double[] dist, boolean[] S, int n) {
+        double min = MAX;  int minIndex = -1;
+        for (int i = 1; i &lt;= n; i++)
+            if (!S[i] &amp;&amp; dist[i] &lt; min) { min = dist[i]; minIndex = i; }
+        return minIndex;
     }
-}</div>
-  </div>
 
-  <div class="card">
-    <div class="card-label">Java Code — Exact from Ma'am's Document (Week 4)</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'dijkcode')">copy</button></div>
-      <pre id="dijkcode"><span class="kw">import</span> java.util.Scanner;
-
-<span class="kw">public class</span> <span class="tp">Dijkstra</span> {
-    <span class="kw">static final int</span> MAX = <span class="nm">999</span>;
-    <span class="kw">static final int</span> MAX_N = <span class="nm">100</span>;
-
-    <span class="kw">static int</span> <span class="fn">minDistance</span>(<span class="kw">double</span>[] dist, <span class="kw">boolean</span>[] S, <span class="kw">int</span> n) {
-        <span class="kw">double</span> min = MAX;
-        <span class="kw">int</span> minIndex = <span class="nm">-1</span>;
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= n; i++)
-            <span class="kw">if</span> (!S[i] &amp;&amp; dist[i] &lt; min) { min = dist[i]; minIndex = i; }
-        <span class="kw">return</span> minIndex;
-    }
-
-    <span class="kw">static void</span> <span class="fn">shortestPaths</span>(<span class="kw">int</span> v, <span class="kw">double</span>[][] cost, <span class="kw">double</span>[] dist, <span class="kw">int</span> n) {
-        <span class="kw">boolean</span>[] S = <span class="kw">new boolean</span>[MAX_N];
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= n; i++) { S[i] = <span class="kw">false</span>; dist[i] = cost[v][i]; }
-        S[v] = <span class="kw">true</span>; dist[v] = <span class="nm">0.0</span>;
-        <span class="kw">for</span> (<span class="kw">int</span> num = <span class="nm">2</span>; num &lt;= n; num++) {
-            <span class="kw">int</span> u = <span class="fn">minDistance</span>(dist, S, n);
-            <span class="kw">if</span> (u == <span class="nm">-1</span>) <span class="kw">break</span>;
-            S[u] = <span class="kw">true</span>;
-            <span class="kw">for</span> (<span class="kw">int</span> w = <span class="nm">1</span>; w &lt;= n; w++)
-                <span class="kw">if</span> (!S[w] &amp;&amp; dist[w] &gt; dist[u] + cost[u][w])
+    static void shortestPaths(int v, double[][] cost, double[] dist, int n) {
+        boolean[] S = new boolean[MAX_N];
+        for (int i = 1; i &lt;= n; i++) { S[i] = false; dist[i] = cost[v][i]; }
+        S[v] = true;  dist[v] = 0.0;
+        for (int num = 2; num &lt;= n; num++) {
+            int u = minDistance(dist, S, n);
+            if (u == -1) break;
+            S[u] = true;
+            for (int w = 1; w &lt;= n; w++)
+                if (!S[w] &amp;&amp; dist[w] &gt; dist[u] + cost[u][w])
                     dist[w] = dist[u] + cost[u][w];
         }
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter the number of vertices: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="kw">double</span>[][] cost = <span class="kw">new double</span>[MAX_N][MAX_N];
-        <span class="kw">double</span>[] dist = <span class="kw">new double</span>[MAX_N];
-        System.out.println(<span class="st">"Enter the adjacency cost matrix (use 999 for infinity):"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++)
-            <span class="kw">for</span> (<span class="kw">int</span> j=<span class="nm">1</span>; j&lt;=n; j++)
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of vertices: ");
+        int n = sc.nextInt();
+        double[][] cost = new double[MAX_N][MAX_N];
+        double[] dist  = new double[MAX_N];
+        System.out.println("Enter adjacency cost matrix (999 = infinity):");
+        for (int i=1; i&lt;=n; i++)
+            for (int j=1; j&lt;=n; j++)
                 cost[i][j] = sc.nextDouble();
-        System.out.print(<span class="st">"Enter the source vertex (1 to "</span> + n + <span class="st">"): "</span>);
-        <span class="kw">int</span> src = sc.nextInt();
-        <span class="fn">shortestPaths</span>(src, cost, dist, n);
-        System.out.println(<span class="st">"Vertex   Distance from Source "</span> + src);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++) {
-            <span class="kw">if</span> (dist[i] == MAX) System.out.println(i + <span class="st">" \t\t INF"</span>);
-            <span class="kw">else</span> System.out.printf(<span class="st">"%d \t\t %.2f\n"</span>, i, dist[i]);
+        System.out.print("Enter source vertex: ");
+        int src = sc.nextInt();
+        shortestPaths(src, cost, dist, n);
+        System.out.println("Vertex\tDistance from " + src);
+        for (int i=1; i&lt;=n; i++) {
+            if (dist[i] == MAX) System.out.println(i + "\tINF");
+            else System.out.printf("%d\t%.2f%n", i, dist[i]);
         }
         sc.close();
     }
 }
-
-<span class="cm">// Sample Input: 5 vertices
-// 0 10 999 30 100
-// 999 0 50 999 999
-// 999 999 0 999 10
-// 999 999 20 0 60
-// 999 999 999 999 0
-// Source: 1
-// Output: 1→0, 2→10, 3→50, 4→30, 5→60</span></pre>
+// Sample: 5 vertices
+// 0 10 999 30 100 / 999 0 50 999 999 / 999 999 0 999 10
+// 999 999 20 0 60 / 999 999 999 999 0 — Source: 1
+// Output: 1→0, 2→10, 3→50, 4→30, 5→60</pre>
     </div>
+    <button class="done-btn" id="btn-dijkstra" onclick="markDone('dijkstra')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <div class="card">
-    <div class="card-label">Complexity</div>
-    <div class="cx-grid">
-      <div class="cx-item avg"><div class="cx-lbl">Simple Array</div><div class="cx-val">O(V²)</div></div>
-      <div class="cx-item best"><div class="cx-lbl">Min Heap</div><div class="cx-val">O((V+E)logV)</div></div>
-      <div class="cx-item worst"><div class="cx-lbl">Note</div><div class="cx-val" style="font-size:10px;color:var(--accent4)">No negative edges!</div></div>
+
+  <!-- PRIM & KRUSKAL -->
+  <div class="topic-page" id="page-mst">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">🌲 WEEK 3 — </div>
+      <div class="topic-title">Prim's &amp; Kruskal's Algorithm</div>
+      <div class="topic-desc">Both find the Minimum Spanning Tree (MST). Prim grows one tree greedily. Kruskal sorts all edges and adds cheapest without forming a cycle.</div>
     </div>
-  </div>
-  <button class="mark-done-btn" onclick="markDone('dijk',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== MST — PRIM & KRUSKAL ========== -->
-<div class="page" id="page-mst">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-greedy">🌲 WEEK 3 — MA'AM'S EXACT CODE</div>
-  <div class="topic-title">Prim's & Kruskal's Algorithm</div>
-  <p class="topic-sub">Both find the Minimum Spanning Tree (MST). Prim grows one tree greedily. Kruskal sorts all edges and adds cheapest without forming a cycle.</p>
-
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Algorithm Prim — Exact from Doc</div>
+    <div class="section-title">Algorithm Prim</div>
     <div class="algo-box">
-      <span class="algo-label">MA'AM'S ALGORITHM</span>
-<span class="fn">Prim</span>(<span class="vl">E</span>, <span class="vl">cost</span>, <span class="vl">n</span>, <span class="vl">t</span>)
+      <div class="algo-box-header">MA'AM'S ALGORITHM</div>
+      <pre>Prim(E, cost, n, t)
 {
-    Let (k,l) = edge of minimum cost in E;
-    mincost := cost[k,l];  t[1,1]:=k; t[1,2]:=l;
-    <span class="kw">for</span> i:=<span class="vl">1</span> <span class="kw">to</span> n <span class="kw">do</span>
-        <span class="kw">if</span>(cost[i,l]&lt;cost[i,k]) <span class="kw">then</span> near[i]:=l
-        <span class="kw">else</span> near[i]:=k;
-    near[k] := near[l] := <span class="vl">0</span>;
-    <span class="kw">for</span> i:=<span class="vl">2</span> <span class="kw">to</span> n-<span class="vl">1</span> <span class="kw">do</span>
-    {
-        j := index where near[j]≠0 and cost[j,near[j]] is min;
-        t[i,1]:=j; t[i,2]:=near[j];
-        mincost := mincost + cost[j,near[j]];
-        near[j] := <span class="vl">0</span>;
-        <span class="kw">for</span> k:=<span class="vl">1</span> <span class="kw">to</span> n <span class="kw">do</span>
-            <span class="kw">if</span>((near[k]≠<span class="vl">0</span>) <span class="kw">and</span> (cost[k,near[k]]&gt;cost[k,j]))
-                <span class="kw">then</span> near[k]:=j;
-    }
-    <span class="kw">return</span> mincost;
-}</div>
-  </div>
+  Let (k,l) = edge of minimum cost in E;
+  mincost := cost[k,l];  t[1,1]:=k;  t[1,2]:=l;
+  for i:=1 to n do
+    if (cost[i,l] &lt; cost[i,k]) then near[i]:=l
+    else near[i]:=k;
+  near[k] := near[l] := 0;
+  for i:=2 to n-1 do
+  {
+    j := index where near[j]≠0 and cost[j,near[j]] is min;
+    t[i,1]:=j;  t[i,2]:=near[j];
+    mincost := mincost + cost[j,near[j]];
+    near[j] := 0;
+    for k:=1 to n do
+      if ((near[k]≠0) and (cost[k,near[k]] > cost[k,j]))
+        then near[k]:=j;
+  }
+  return mincost;
+}</pre>
+    </div>
 
-  <div class="card">
-    <div class="card-label">Prim's Java Code — Exact from Ma'am's Document</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'primcode')">copy</button></div>
-      <pre id="primcode"><span class="kw">import</span> java.util.Scanner;
+    <div class="section-title">Prim's Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
 
-<span class="kw">public class</span> <span class="tp">PrimsAlgorithm</span> {
-    <span class="kw">static final int</span> MAX = <span class="nm">100</span>;
-    <span class="kw">static final int</span> INF = <span class="nm">99999</span>;
+public class PrimsAlgorithm {
+    static final int INF = 99999;
 
-    <span class="kw">public static void</span> <span class="fn">prim</span>(<span class="kw">int</span>[][] cost, <span class="kw">int</span> n) {
-        <span class="kw">int</span>[][] t = <span class="kw">new int</span>[n-<span class="nm">1</span>][<span class="nm">2</span>];
-        <span class="kw">int</span>[] near = <span class="kw">new int</span>[n+<span class="nm">1</span>];
-        <span class="kw">int</span> mincost = <span class="nm">0</span>;
-        <span class="kw">int</span> k = <span class="nm">0</span>, l = <span class="nm">0</span>, min = INF;
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++)
-            <span class="kw">for</span> (<span class="kw">int</span> j=<span class="nm">1</span>; j&lt;=n; j++)
-                <span class="kw">if</span> (cost[i][j] &lt; min) { min=cost[i][j]; k=i; l=j; }
+    public static void prim(int[][] cost, int n) {
+        int[][] t = new int[n-1][2];
+        int[] near = new int[n+1];
+        int mincost = 0, k = 0, l = 0, min = INF;
+        for (int i=1; i&lt;=n; i++)
+            for (int j=1; j&lt;=n; j++)
+                if (cost[i][j] &lt; min) { min=cost[i][j]; k=i; l=j; }
         mincost = cost[k][l];
-        t[<span class="nm">0</span>][<span class="nm">0</span>] = k; t[<span class="nm">0</span>][<span class="nm">1</span>] = l;
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++)
+        t[0][0] = k;  t[0][1] = l;
+        for (int i=1; i&lt;=n; i++)
             near[i] = (cost[i][l] &lt; cost[i][k]) ? l : k;
-        near[k] = near[l] = <span class="nm">0</span>;
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;n-<span class="nm">1</span>; i++) {
-            <span class="kw">int</span> j = <span class="nm">0</span>, minVal = INF;
-            <span class="kw">for</span> (<span class="kw">int</span> m=<span class="nm">1</span>; m&lt;=n; m++)
-                <span class="kw">if</span> (near[m]!=<span class="nm">0</span> &amp;&amp; cost[m][near[m]]&lt;minVal)
+        near[k] = near[l] = 0;
+        for (int i=1; i&lt;n-1; i++) {
+            int j = 0, minVal = INF;
+            for (int m=1; m&lt;=n; m++)
+                if (near[m]!=0 &amp;&amp; cost[m][near[m]]&lt;minVal)
                     { minVal=cost[m][near[m]]; j=m; }
-            t[i][<span class="nm">0</span>]=j; t[i][<span class="nm">1</span>]=near[j];
+            t[i][0]=j;  t[i][1]=near[j];
             mincost += cost[j][near[j]];
-            near[j] = <span class="nm">0</span>;
-            <span class="kw">for</span> (<span class="kw">int</span> m=<span class="nm">1</span>; m&lt;=n; m++)
-                <span class="kw">if</span> (near[m]!=<span class="nm">0</span> &amp;&amp; cost[m][near[m]]&gt;cost[m][j])
+            near[j] = 0;
+            for (int m=1; m&lt;=n; m++)
+                if (near[m]!=0 &amp;&amp; cost[m][near[m]]&gt;cost[m][j])
                     near[m]=j;
         }
-        System.out.println(<span class="st">"Edges in Minimum Cost Spanning Tree:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;n-<span class="nm">1</span>; i++)
-            System.out.println(<span class="st">"("</span>+t[i][<span class="nm">0</span>]+<span class="st">", "</span>+t[i][<span class="nm">1</span>]+<span class="st">")"</span>);
-        System.out.println(<span class="st">"Minimum Cost: "</span>+mincost);
+        System.out.println("MST Edges:");
+        for (int i=0; i&lt;n-1; i++)
+            System.out.println("(" + t[i][0] + ", " + t[i][1] + ")");
+        System.out.println("Minimum Cost: " + mincost);
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter the number of vertices: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="kw">int</span>[][] cost = <span class="kw">new int</span>[n+<span class="nm">1</span>][n+<span class="nm">1</span>];
-        System.out.println(<span class="st">"Enter the adjacency matrix (use 99999 for no edge):"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++)
-            <span class="kw">for</span> (<span class="kw">int</span> j=<span class="nm">1</span>; j&lt;=n; j++)
-                cost[i][j]=sc.nextInt();
-        <span class="fn">prim</span>(cost, n);
-        sc.close();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[][] cost = new int[n+1][n+1];
+        for (int i=1; i&lt;=n; i++) for (int j=1; j&lt;=n; j++) cost[i][j]=sc.nextInt();
+        prim(cost, n);  sc.close();
     }
 }
-<span class="cm">// Sample: 4 vertices
-// 99999  2  99999  6
-// 2  99999  3  8
-// 99999  3  99999  7
-// 6  8  7  99999
-// Output: (2,1) (3,2) (4,3)  MinCost: 11</span></pre>
+// Sample: 4 vertices
+// 99999 2 99999 6 / 2 99999 3 8 / 99999 3 99999 7 / 6 8 7 99999
+// Output: (2,1) (3,2) (4,3)  MinCost: 11</pre>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-label">Algorithm Kruskal — Exact from Doc</div>
+    <div class="section-title">Algorithm Kruskal</div>
     <div class="algo-box">
-      <span class="algo-label">MA'AM'S ALGORITHM</span>
-<span class="fn">Kruskal</span>(<span class="vl">E</span>, <span class="vl">cost</span>, <span class="vl">n</span>, <span class="vl">t</span>)
+      <div class="algo-box-header">MA'AM'S ALGORITHM</div>
+      <pre>Kruskal(E, cost, n, t)
 {
-    Heapify the edge costs;
-    <span class="kw">for</span> i:=<span class="vl">1</span> <span class="kw">to</span> n <span class="kw">do</span> parent[i] := -<span class="vl">1</span>;
-    i:=<span class="vl">0</span>; mincost:=<span class="vl">0</span>;
-    <span class="kw">while</span> ((i &lt; n-<span class="vl">1</span>) <span class="kw">and</span> (heap not empty)) <span class="kw">do</span>
+  Heapify the edge costs;
+  for i:=1 to n do parent[i] := -1;
+  i:=0;  mincost:=0;
+  while ((i &lt; n-1) and (heap not empty)) do
+  {
+    Delete min edge (u,v) from heap;  Adjust heap;
+    j := Find(u);  k := Find(v);
+    if (j ≠ k) then
     {
-        Delete min edge (u,v) from heap; Adjust heap;
-        j := <span class="fn">Find</span>(u);  k := <span class="fn">Find</span>(v);
-        <span class="kw">if</span> (j ≠ k) <span class="kw">then</span>
-        {
-            i++;  t[i,1]:=u; t[i,2]:=v;
-            mincost := mincost + cost[u,v];
-            <span class="fn">Union</span>(j, k);
+      i++;  t[i,1]:=u;  t[i,2]:=v;
+      mincost := mincost + cost[u,v];
+      Union(j, k);
+    }
+  }
+  if (i ≠ n-1) then write("No spanning tree");
+  else return mincost;
+}</pre>
+    </div>
+
+    <div class="section-title">Kruskal's Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.*;
+
+public class KruskalAlgorithm {
+    static int[] parent;
+    static int n, heapSize;
+
+    static class Edge {
+        int u, v, cost;
+        Edge(int u, int v, int c) { this.u=u; this.v=v; cost=c; }
+    }
+    static Edge[] heap;
+
+    static void adjust(int i) {
+        int j = 2*i;  Edge item = heap[i];
+        while (j &lt;= heapSize) {
+            if (j &lt; heapSize &amp;&amp; heap[j].cost &gt; heap[j+1].cost) j++;
+            if (item.cost &lt;= heap[j].cost) break;
+            heap[j/2] = heap[j];  j *= 2;
         }
+        heap[j/2] = item;
     }
-    <span class="kw">if</span> (i ≠ n-<span class="vl">1</span>) <span class="kw">then</span> write(<span class="st">"No spanning tree"</span>);
-    <span class="kw">else return</span> mincost;
-}</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Kruskal's Java Code — Exact from Ma'am's Document</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'kruscode')">copy</button></div>
-      <pre id="kruscode"><span class="kw">import</span> java.util.*;
-
-<span class="kw">public class</span> <span class="tp">KruskalAlgorithm</span> {
-    <span class="kw">static int</span>[] heap_u, heap_v, heap_cost, parent;
-    <span class="kw">static int</span> n, m, heapSize;
-
-    <span class="kw">static class</span> <span class="tp">Edge</span> {
-        <span class="kw">int</span> u, v, cost;
-        <span class="tp">Edge</span>(<span class="kw">int</span> u, <span class="kw">int</span> v, <span class="kw">int</span> c) { <span class="kw">this</span>.u=u; <span class="kw">this</span>.v=v; cost=c; }
+    static void buildHeap() { for (int i=heapSize/2; i&gt;=1; i--) adjust(i); }
+    static Edge deleteMin() {
+        Edge min = heap[1];  heap[1] = heap[heapSize--];  adjust(1);  return min;
     }
+    static int Find(int i) { while (parent[i] &gt; 0) i = parent[i]; return i; }
+    static void Union(int i, int j) { parent[j] = i; }
 
-    <span class="kw">static</span> <span class="tp">Edge</span>[] heap;
-
-    <span class="kw">static void</span> <span class="fn">adjust</span>(<span class="kw">int</span> i) {
-        <span class="kw">int</span> j = <span class="nm">2</span>*i;
-        <span class="tp">Edge</span> item = heap[i];
-        <span class="kw">while</span> (j &lt;= heapSize) {
-            <span class="kw">if</span> (j &lt; heapSize &amp;&amp; heap[j].cost &gt; heap[j+<span class="nm">1</span>].cost) j++;
-            <span class="kw">if</span> (item.cost &lt;= heap[j].cost) <span class="kw">break</span>;
-            heap[j/<span class="nm">2</span>] = heap[j]; j *= <span class="nm">2</span>;
-        }
-        heap[j/<span class="nm">2</span>] = item;
-    }
-
-    <span class="kw">static void</span> <span class="fn">buildHeap</span>() {
-        <span class="kw">for</span> (<span class="kw">int</span> i=heapSize/<span class="nm">2</span>; i&gt;=<span class="nm">1</span>; i--) <span class="fn">adjust</span>(i);
-    }
-
-    <span class="kw">static</span> <span class="tp">Edge</span> <span class="fn">deleteMin</span>() {
-        <span class="tp">Edge</span> min = heap[<span class="nm">1</span>];
-        heap[<span class="nm">1</span>] = heap[heapSize--]; <span class="fn">adjust</span>(<span class="nm">1</span>);
-        <span class="kw">return</span> min;
-    }
-
-    <span class="kw">static int</span> <span class="fn">Find</span>(<span class="kw">int</span> i) {
-        <span class="kw">while</span> (parent[i] &gt; <span class="nm">0</span>) i = parent[i];
-        <span class="kw">return</span> i;
-    }
-
-    <span class="kw">static void</span> <span class="fn">Union</span>(<span class="kw">int</span> i, <span class="kw">int</span> j) { parent[j] = i; }
-
-    <span class="kw">static void</span> <span class="fn">kruskal</span>() {
-        <span class="kw">int</span> i = <span class="nm">0</span>, mincost = <span class="nm">0</span>;
-        <span class="fn">buildHeap</span>();
-        <span class="kw">for</span> (<span class="kw">int</span> k=<span class="nm">1</span>; k&lt;=n; k++) parent[k] = <span class="nm">-1</span>;
-        System.out.println(<span class="st">"\nEdges in MST:"</span>);
-        <span class="kw">while</span> (i &lt; n-<span class="nm">1</span> &amp;&amp; heapSize &gt; <span class="nm">0</span>) {
-            <span class="tp">Edge</span> e = <span class="fn">deleteMin</span>();
-            <span class="kw">int</span> j = <span class="fn">Find</span>(e.u), k = <span class="fn">Find</span>(e.v);
-            <span class="kw">if</span> (j != k) {
+    static void kruskal() {
+        int i = 0, mincost = 0;  buildHeap();
+        for (int k=1; k&lt;=n; k++) parent[k] = -1;
+        System.out.println("Edges in MST:");
+        while (i &lt; n-1 &amp;&amp; heapSize &gt; 0) {
+            Edge e = deleteMin();
+            int j = Find(e.u), k = Find(e.v);
+            if (j != k) {
                 i++;
-                System.out.println(e.u + <span class="st">" -- "</span> + e.v + <span class="st">" : "</span> + e.cost);
-                mincost += e.cost;
-                <span class="fn">Union</span>(j, k);
+                System.out.println(e.u + " -- " + e.v + " : " + e.cost);
+                mincost += e.cost;  Union(j, k);
             }
         }
-        <span class="kw">if</span> (i != n-<span class="nm">1</span>) System.out.println(<span class="st">"\nNo spanning tree exists"</span>);
-        <span class="kw">else</span> System.out.println(<span class="st">"\nMinimum cost = "</span> + mincost);
+        if (i != n-1) System.out.println("No spanning tree exists");
+        else System.out.println("Minimum cost = " + mincost);
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter number of vertices and edges: "</span>);
-        n = sc.nextInt(); m = sc.nextInt();
-        heap = <span class="kw">new</span> <span class="tp">Edge</span>[m+<span class="nm">1</span>];
-        parent = <span class="kw">new int</span>[n+<span class="nm">1</span>];
-        System.out.println(<span class="st">"Enter edges (u v cost):"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=m; i++) {
-            <span class="kw">int</span> u=sc.nextInt(), v=sc.nextInt(), c=sc.nextInt();
-            heap[i] = <span class="kw">new</span> <span class="tp">Edge</span>(u,v,c);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();  int m = sc.nextInt();
+        heap = new Edge[m+1];  parent = new int[n+1];
+        System.out.println("Enter edges (u v cost):");
+        for (int i=1; i&lt;=m; i++) {
+            int u=sc.nextInt(), v=sc.nextInt(), c=sc.nextInt();
+            heap[i] = new Edge(u, v, c);
         }
-        heapSize = m;
-        <span class="fn">kruskal</span>();
-        sc.close();
+        heapSize = m;  kruskal();  sc.close();
     }
 }
-<span class="cm">// Sample: 7 vertices, 9 edges
+// Sample: 7 vertices, 9 edges
 // 1 6 10 / 6 5 25 / 5 4 22 / 4 3 12
 // 3 2 16 / 2 1 28 / 2 7 14 / 7 5 24 / 7 4 18
-// Output MST cost = 99</span></pre>
+// Output MST cost = 99</pre>
     </div>
+    <button class="done-btn" id="btn-mst" onclick="markDone('mst')">✓ Mark as Done (+10 XP)</button>
   </div>
-  <button class="mark-done-btn" onclick="markDone('mst',this)">✓ Mark as Done (+10 XP)</button>
-</div>
 
-<!-- ========== JOB SEQUENCING ========== -->
-<div class="page" id="page-job">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-greedy">📋 WEEK 5 — MA'AM'S EXACT CODE</div>
-  <div class="topic-title">Job Sequencing with Deadlines</div>
-  <p class="topic-sub">Select jobs to maximize total profit. Each job has a deadline and takes 1 unit of time. Jobs sorted by profit (decreasing).</p>
+  <!-- JOB SEQUENCING -->
+  <div class="topic-page" id="page-job">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">📋 WEEK 5 — </div>
+      <div class="topic-title">Job Sequencing with Deadlines</div>
+      <div class="topic-desc">Select jobs to maximize total profit. Each job has a deadline and takes 1 unit of time. Jobs sorted by profit (decreasing).</div>
+    </div>
 
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">Algorithm JS — Exact from Doc</div>
+    <div class="section-title">Algorithm JS</div>
     <div class="algo-box">
-      <span class="algo-label">MA'AM'S ALGORITHM</span>
-<span class="cm">// p[1]≥p[2]≥...≥p[n]. J[i] = ith job in optimal solution.</span>
-<span class="fn">JS</span>(<span class="vl">d</span>, <span class="vl">j</span>, <span class="vl">n</span>)
+      <div class="algo-box-header">MA'AM'S ALGORITHM</div>
+      <pre>// p[1]≥p[2]≥...≥p[n].  J[i] = ith job in optimal solution.
+JS(d, j, n)
 {
-    d[0] := J[0] := <span class="vl">0</span>;   J[1] := <span class="vl">1</span>;   k := <span class="vl">1</span>;
-    <span class="kw">for</span> i := <span class="vl">2</span> <span class="kw">to</span> n <span class="kw">do</span>
+  d[0] := J[0] := 0;  J[1] := 1;  k := 1;
+  for i := 2 to n do
+  {
+    r := k;
+    while ((d[J[r]] > d[i]) and (d[J[r]] ≠ r))
+      do r := r − 1;
+    if ((d[J[r]] ≤ d[i]) and (d[i] > r)) then
     {
-        r := k;
-        <span class="kw">while</span> ((d[J[r]] &gt; d[i]) <span class="kw">and</span> (d[J[r]] ≠ r))
-            <span class="kw">do</span> r := r − <span class="vl">1</span>;
-        <span class="kw">if</span> ((d[J[r]] ≤ d[i]) <span class="kw">and</span> (d[i] &gt; r)) <span class="kw">then</span>
-        {
-            <span class="kw">for</span> q := k <span class="kw">to</span> r+<span class="vl">1</span> <span class="kw">step</span> −<span class="vl">1</span> <span class="kw">do</span>  J[q+1] := J[q];
-            J[r+<span class="vl">1</span>] := i;   k := k + <span class="vl">1</span>;
-        }
+      for q := k to r+1 step −1 do J[q+1] := J[q];
+      J[r+1] := i;  k := k + 1;
     }
-    <span class="kw">return</span> k;
-}</div>
-  </div>
+  }
+  return k;
+}</pre>
+    </div>
 
-  <div class="card">
-    <div class="card-label">Java Code — Exact from Ma'am's Document (Week 5)</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'jobcode')">copy</button></div>
-      <pre id="jobcode"><span class="kw">import</span> java.util.Scanner;
+    <div class="section-title">Java Code</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
 
-<span class="kw">class</span> <span class="tp">Job</span> {
-    <span class="kw">int</span> id, deadline, profit;
-    <span class="tp">Job</span>(<span class="kw">int</span> id, <span class="kw">int</span> deadline, <span class="kw">int</span> profit) {
-        <span class="kw">this</span>.id=id; <span class="kw">this</span>.deadline=deadline; <span class="kw">this</span>.profit=profit;
+class Job {
+    int id, deadline, profit;
+    Job(int id, int deadline, int profit) {
+        this.id=id; this.deadline=deadline; this.profit=profit;
     }
 }
 
-<span class="kw">public class</span> <span class="tp">JobSequencing</span> {
+public class JobSequencing {
 
-    <span class="kw">public static void</span> <span class="fn">jobSequencing</span>(<span class="tp">Job</span>[] jobs, <span class="kw">int</span> n) {
-        <span class="kw">int</span>[] J = <span class="kw">new int</span>[n+<span class="nm">1</span>];
-        J[<span class="nm">0</span>] = <span class="nm">0</span>; J[<span class="nm">1</span>] = <span class="nm">1</span>; <span class="kw">int</span> k = <span class="nm">1</span>;
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">2</span>; i&lt;=n; i++) {
-            <span class="kw">int</span> r = k;
-            <span class="kw">while</span> ((r&gt;<span class="nm">0</span>) &amp;&amp; (jobs[J[r]].deadline&gt;=jobs[i].deadline) &amp;&amp; (jobs[J[r]].deadline!=r))
-                r = r - <span class="nm">1</span>;
-            <span class="kw">if</span> ((jobs[J[r]].deadline &lt;= jobs[i].deadline) &amp;&amp; (jobs[i].deadline &gt; r)) {
-                <span class="kw">for</span> (<span class="kw">int</span> q=k; q&gt;=r+<span class="nm">1</span>; q--) J[q+<span class="nm">1</span>] = J[q];
-                J[r+<span class="nm">1</span>] = i; k = k + <span class="nm">1</span>;
+    public static void jobSequencing(Job[] jobs, int n) {
+        int[] J = new int[n+1];
+        J[0] = 0;  J[1] = 1;  int k = 1;
+        for (int i=2; i&lt;=n; i++) {
+            int r = k;
+            while ((r&gt;0) &amp;&amp; (jobs[J[r]].deadline&gt;=jobs[i].deadline)
+                        &amp;&amp; (jobs[J[r]].deadline!=r))
+                r = r - 1;
+            if ((jobs[J[r]].deadline &lt;= jobs[i].deadline)
+                        &amp;&amp; (jobs[i].deadline &gt; r)) {
+                for (int q=k; q&gt;=r+1; q--) J[q+1] = J[q];
+                J[r+1] = i;  k = k + 1;
             }
         }
-        System.out.print(<span class="st">"Selected Jobs: "</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=k; i++) System.out.print(<span class="st">"J"</span>+jobs[J[i]].id+<span class="st">" "</span>);
+        System.out.print("Selected Jobs: ");
+        for (int i=1; i&lt;=k; i++) System.out.print("J" + jobs[J[i]].id + " ");
         System.out.println();
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter the number of jobs: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="tp">Job</span>[] jobs = <span class="kw">new</span> <span class="tp">Job</span>[n+<span class="nm">1</span>];
-        System.out.println(<span class="st">"Enter job details (id deadline profit) — sorted by profit desc:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">1</span>; i&lt;=n; i++) {
-            System.out.print(<span class="st">"Job "</span>+i+<span class="st">": "</span>);
-            jobs[i] = <span class="kw">new</span> <span class="tp">Job</span>(sc.nextInt(), sc.nextInt(), sc.nextInt());
-        }
-        <span class="fn">jobSequencing</span>(jobs, n);
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of jobs: ");
+        int n = sc.nextInt();
+        Job[] jobs = new Job[n+1];
+        // Enter: id deadline profit (sorted by profit desc)
+        System.out.println("Enter job details (id deadline profit):");
+        for (int i=1; i&lt;=n; i++)
+            jobs[i] = new Job(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        jobSequencing(jobs, n);
         sc.close();
     }
 }
-<span class="cm">// Sample Input: 4 jobs
-// Job 1: 1 2 100
-// Job 2: 2 1 50
-// Job 3: 3 2 10
-// Job 4: 4 1 20
-// Output: Selected Jobs: J1 J2</span></pre>
+// Sample: 4 jobs
+// 1 2 100 / 2 1 50 / 3 2 10 / 4 1 20
+// Output: Selected Jobs: J1 J2</pre>
     </div>
-  </div>
-  <button class="mark-done-btn" onclick="markDone('job',this)">✓ Mark as Done (+10 XP)</button>
-</div>
-
-<!-- ========== BST TRAVERSALS ========== -->
-<div class="page" id="page-bst">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-tree">🌳 TREES</div>
-  <div class="topic-title">BST Traversals</div>
-  <p class="topic-sub">Inorder (L→Root→R) gives sorted output. Preorder (Root→L→R) for copying. Postorder (L→R→Root) for deletion.</p>
-
-  <div class="card" style="margin-top:20px">
-    <div class="card-label">The Three Traversals</div>
-    <div class="visual">
-<span class="st">BST:</span>         <span class="ac">50</span>
-            /    \
-          <span class="ac">30</span>     <span class="ac">70</span>
-         /  \
-       <span class="ac">20</span>   <span class="ac">40</span>
-
-<span class="ok">Inorder:   20 30 40 50 70</span>  ← SORTED! ✓
-<span class="hi">Preorder:  50 30 20 40 70</span>  ← Root first
-         Postorder: 20 40 30 70 50  ← Root last</div>
+    <button class="done-btn" id="btn-job" onclick="markDone('job')">✓ Mark as Done (+10 XP)</button>
   </div>
 
-  <div class="card">
-    <div class="card-label">Java Code — Insert + All 3 Traversals</div>
-    <div class="code-wrap">
-      <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="lang-tag">Java</span><button class="copy-btn" onclick="copyCode(this,'bstcode')">copy</button></div>
-      <pre id="bstcode"><span class="kw">import</span> java.util.Scanner;
+  <!-- BST TRAVERSALS -->
+  <div class="topic-page" id="page-bst">
+    <div class="back-btn" onclick="showPage('home')">← Back</div>
+    <div class="topic-header">
+      <div class="topic-badge">🌳 TREES</div>
+      <div class="topic-title">BST Traversals</div>
+      <div class="topic-desc">Inorder (L→Root→R) gives sorted output. Preorder (Root→L→R) for copying. Postorder (L→R→Root) for deletion.</div>
+    </div>
 
-<span class="kw">public class</span> <span class="tp">BSTTraversals</span> {
+    <div class="section-title">The Three Traversals</div>
+    <div class="viz-box">       BST:       50
+               /  \
+              30   70
+             / \
+            20  40
 
-    <span class="kw">static class</span> <span class="tp">Node</span> {
-        <span class="kw">int</span> data;
-        <span class="tp">Node</span> left, right;
-        <span class="tp">Node</span>(<span class="kw">int</span> d) { data=d; left=right=<span class="kw">null</span>; }
+Inorder:   <span class="highlight">20 30 40 50 70</span> ← SORTED! ✓
+Preorder:  <span class="accent">50 30 20 40 70</span> ← Root first
+Postorder: <span class="accent">20 40 30 70 50</span> ← Root last</div>
+
+    <div class="section-title">Algorithm</div>
+    <div class="algo-box">
+      <div class="algo-box-header">PSEUDOCODE</div>
+      <pre>Insert(root, key)
+{
+  if (root = null) return new Node(key);
+  if (key &lt; root.data) root.left := Insert(root.left, key);
+  else if (key &gt; root.data) root.right := Insert(root.right, key);
+  return root;
+}
+
+Inorder(r)   { if r≠null: Inorder(L), visit, Inorder(R) }
+Preorder(r)  { if r≠null: visit, Preorder(L), Preorder(R) }
+Postorder(r) { if r≠null: Postorder(L), Postorder(R), visit }</pre>
+    </div>
+
+    <div class="section-title">Java Code — Insert + All 3 Traversals</div>
+    <div class="code-box">
+      <div class="code-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+      <pre>import java.util.Scanner;
+
+public class BSTTraversals {
+
+    static class Node {
+        int data;  Node left, right;
+        Node(int d) { data=d; left=right=null; }
     }
 
-    <span class="kw">static</span> <span class="tp">Node</span> <span class="fn">insert</span>(<span class="tp">Node</span> root, <span class="kw">int</span> key) {
-        <span class="kw">if</span> (root == <span class="kw">null</span>) <span class="kw">return new</span> <span class="tp">Node</span>(key);
-        <span class="kw">if</span> (key &lt; root.data)       root.left  = <span class="fn">insert</span>(root.left,  key);
-        <span class="kw">else if</span> (key &gt; root.data)  root.right = <span class="fn">insert</span>(root.right, key);
-        <span class="kw">return</span> root;
+    static Node insert(Node root, int key) {
+        if (root == null) return new Node(key);
+        if (key &lt; root.data)       root.left  = insert(root.left,  key);
+        else if (key &gt; root.data)  root.right = insert(root.right, key);
+        return root;
     }
 
-    <span class="cm">// Inorder: Left → Root → Right (gives sorted output)</span>
-    <span class="kw">static void</span> <span class="fn">inorder</span>(<span class="tp">Node</span> r) {
-        <span class="kw">if</span> (r != <span class="kw">null</span>) {
-            <span class="fn">inorder</span>(r.left);
-            System.out.print(r.data + <span class="st">" "</span>);
-            <span class="fn">inorder</span>(r.right);
-        }
+    // Inorder: Left → Root → Right  (gives SORTED output)
+    static void inorder(Node r) {
+        if (r != null) { inorder(r.left); System.out.print(r.data+" "); inorder(r.right); }
     }
 
-    <span class="cm">// Preorder: Root → Left → Right</span>
-    <span class="kw">static void</span> <span class="fn">preorder</span>(<span class="tp">Node</span> r) {
-        <span class="kw">if</span> (r != <span class="kw">null</span>) {
-            System.out.print(r.data + <span class="st">" "</span>);
-            <span class="fn">preorder</span>(r.left);
-            <span class="fn">preorder</span>(r.right);
-        }
+    // Preorder: Root → Left → Right
+    static void preorder(Node r) {
+        if (r != null) { System.out.print(r.data+" "); preorder(r.left); preorder(r.right); }
     }
 
-    <span class="cm">// Postorder: Left → Right → Root</span>
-    <span class="kw">static void</span> <span class="fn">postorder</span>(<span class="tp">Node</span> r) {
-        <span class="kw">if</span> (r != <span class="kw">null</span>) {
-            <span class="fn">postorder</span>(r.left);
-            <span class="fn">postorder</span>(r.right);
-            System.out.print(r.data + <span class="st">" "</span>);
-        }
+    // Postorder: Left → Right → Root
+    static void postorder(Node r) {
+        if (r != null) { postorder(r.left); postorder(r.right); System.out.print(r.data+" "); }
     }
 
-    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        Scanner sc = <span class="kw">new</span> Scanner(System.in);
-        System.out.print(<span class="st">"Enter number of elements: "</span>);
-        <span class="kw">int</span> n = sc.nextInt();
-        <span class="tp">Node</span> root = <span class="kw">null</span>;
-        System.out.println(<span class="st">"Enter elements:"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i=<span class="nm">0</span>; i&lt;n; i++) root = <span class="fn">insert</span>(root, sc.nextInt());
-        System.out.print(<span class="st">"Inorder:   "</span>); <span class="fn">inorder</span>(root);   System.out.println();
-        System.out.print(<span class="st">"Preorder:  "</span>); <span class="fn">preorder</span>(root);  System.out.println();
-        System.out.print(<span class="st">"Postorder: "</span>); <span class="fn">postorder</span>(root); System.out.println();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        Node root = null;
+        System.out.println("Enter elements:");
+        for (int i=0; i&lt;n; i++) root = insert(root, sc.nextInt());
+        System.out.print("Inorder:   "); inorder(root);   System.out.println();
+        System.out.print("Preorder:  "); preorder(root);  System.out.println();
+        System.out.print("Postorder: "); postorder(root); System.out.println();
         sc.close();
     }
 }</pre>
     </div>
-  </div>
-  <button class="mark-done-btn" onclick="markDone('bst',this)">✓ Mark as Done (+10 XP)</button>
-</div>
-
-<!-- ========== GAMES ========== -->
-<div class="page" id="page-games">
-  <button class="back-btn" onclick="showHome()">← Back</button>
-  <div class="topic-tag tag-greedy">🎮 TAKE A BREAK</div>
-  <div class="topic-title">Study Games</div>
-  <p class="topic-sub">Quick brain breaks between topics. Stay sharp, don't burn out! 🧠⚡</p>
-
-  <div class="game-tabs" style="margin-top:20px">
-    <div class="game-tab active" onclick="switchGame('quiz',this)">🧠 Algorithm Quiz</div>
-    <div class="game-tab" onclick="switchGame('memory',this)">🃏 Memory Match</div>
-    <div class="game-tab" onclick="switchGame('snake',this)">🐍 Snake</div>
+    <button class="done-btn" id="btn-bst" onclick="markDone('bst')">✓ Mark as Done (+10 XP)</button>
   </div>
 
-  <!-- QUIZ -->
-  <div class="game-panel active" id="game-quiz">
-    <div class="quiz-score">Score: <span id="q-score">0</span> / <span id="q-total">0</span></div>
-    <div class="quiz-card">
-      <div class="quiz-q" id="quiz-q">Loading question...</div>
-      <div class="quiz-opts" id="quiz-opts"></div>
-      <div class="quiz-feedback" id="quiz-fb"></div>
-      <button class="quiz-next" id="quiz-next-btn" onclick="nextQuestion()">Next Question →</button>
+  <!-- GAMES PAGE -->
+  <div class="page" id="page-games" style="padding-top:20px;">
+    <h2 style="margin-bottom:8px;">🎮 Study Games</h2>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:20px;">Quick brain breaks between topics. Stay sharp, don't burn out! 🧠⚡</p>
+    <div class="games-tabs">
+      <div class="games-tab active" onclick="switchGame('quiz',this)">🧠 Algorithm Quiz</div>
+      <div class="games-tab" onclick="switchGame('memory',this)">🃏 Memory Match</div>
+      <div class="games-tab" onclick="switchGame('snake',this)">🐍 Snake</div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="game-panel active" id="game-quiz">
+      <div class="quiz-score">Score: <span id="qScore">0</span> / <span id="qTotal">0</span></div>
+      <div class="quiz-card">
+        <div class="quiz-q" id="quizQ">Loading question...</div>
+        <div class="quiz-options" id="quizOpts"></div>
+      </div>
+      <button class="next-btn" onclick="nextQuestion()">Next Question →</button>
+    </div>
+
+    <!-- MEMORY -->
+    <div class="game-panel" id="game-memory">
+      <div class="mem-stats">Match algorithm names to their complexities! &nbsp; Moves: <span id="memMoves">0</span> | Matched: <span id="memMatched">0</span>/8</div>
+      <div class="memory-grid" id="memGrid"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="next-btn" onclick="initMemory()">🔄 New Game</button>
+      </div>
+    </div>
+
+    <!-- SNAKE -->
+    <div class="game-panel" id="game-snake">
+      <div class="snake-score">Score: <span id="snakeScore">0</span> &nbsp; Best: <span id="snakeBest">0</span></div>
+      <canvas id="snake-canvas" width="400" height="400"></canvas>
+      <div class="snake-controls" style="margin-top:10px;">
+        <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Arrow keys / WASD to move</p>
+        <button class="start-btn" id="snakeStartBtn" onclick="startSnake()">▶ Start Game</button>
+      </div>
     </div>
   </div>
 
-  <!-- MEMORY -->
-  <div class="game-panel" id="game-memory">
-    <div class="mem-info">Match algorithm names to their complexities! Moves: <span id="mem-moves">0</span> | Matched: <span id="mem-matched">0</span>/8</div>
-    <div class="memory-grid" id="mem-grid"></div>
-    <button class="snake-btn" onclick="initMemory()" style="margin-top:12px">🔄 New Game</button>
-  </div>
-
-  <!-- SNAKE -->
-  <div class="game-panel" id="game-snake">
-    <div class="snake-info">
-      <span>Score: <span class="snake-score" id="snake-score">0</span></span>
-      <span>Best: <span class="snake-score" id="snake-best">0</span></span>
-      <span style="font-size:10px;color:var(--muted)">Arrow keys / WASD to move</span>
-    </div>
-    <canvas id="snake-canvas" width="320" height="320"></canvas>
-    <br>
-    <button class="snake-btn" id="snake-start-btn" onclick="startSnake()">▶ Start Game</button>
-  </div>
-</div>
-
-</div><!-- end content -->
 </div><!-- end main -->
 
 <script>
-// ============ NAVIGATION ============
-const topicIds = ['bs','qs','ms','bfsdfs','ap','dijk','mst','job','bst'];
-const done = new Set();
+// ==================== STATE ====================
+const done = {};
 let xp = 0;
+const TOPICS = ['binary','quick','merge','bfsdfs','ap','dijkstra','mst','job','bst'];
 
-function showHome(navEl) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-home').classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(navEl) navEl.classList.add('active');
-  else document.querySelector('.nav-item').classList.add('active');
-  document.getElementById('breadcrumb').innerHTML='DAA Lab / <span>Home</span>';
-  closeSidebar();
-}
+// ==================== TIMER ====================
+let seconds = 0;
+setInterval(() => {
+  seconds++;
+  const h = String(Math.floor(seconds/3600)).padStart(2,'0');
+  const m = String(Math.floor((seconds%3600)/60)).padStart(2,'0');
+  const s = String(seconds%60).padStart(2,'0');
+  document.getElementById('timer').textContent = `${h}:${m}:${s}`;
+}, 1000);
 
-function showTopic(id, navEl) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+// ==================== NAVIGATION ====================
+function showPage(id) {
+  document.querySelectorAll('.page, .topic-page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(navEl) navEl.classList.add('active');
-  else {
-    document.querySelectorAll('.nav-item').forEach(n=>{
-      if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active');
-    });
-  }
-  const names={bs:'Binary Search',qs:'Quick Sort',ms:'Merge Sort',bfsdfs:'BFS & DFS',
-    ap:'AP & Biconnected',dijk:"Dijkstra's",mst:"Prim's & Kruskal's",job:'Job Sequencing',
-    bst:'BST Traversals',games:'Study Games'};
-  document.getElementById('breadcrumb').innerHTML='DAA Lab / <span>'+(names[id]||id)+'</span>';
-  closeSidebar();
-  window.scrollTo(0,0);
-}
-
-function markDone(id, btn) {
-  if(done.has(id)) return;
-  done.add(id);
-  xp += 10;
-  document.getElementById('xp').textContent = xp;
-  document.getElementById('done-count').textContent = done.size;
-  document.getElementById('prog-fill').style.width = (done.size/9*100)+'%';
-  document.getElementById('prog-txt').textContent = done.size+'/9';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const navEl = document.getElementById('nav-'+id);
-  if(navEl) navEl.classList.add('done');
-  const cardEl = document.getElementById('card-'+id);
-  if(cardEl) cardEl.classList.add('done');
-  btn.textContent = '✓ Completed!';
-  btn.classList.add('already');
-  showToast('🎉 +10 XP! '+id.toUpperCase()+' done!');
+  if (navEl) navEl.classList.add('active');
+  document.getElementById('pageName').textContent = id.charAt(0).toUpperCase()+id.slice(1);
+  document.getElementById('main').scrollTop = 0;
+  if (window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
 }
 
-// ============ CLOCK ============
-const start = Date.now();
-function updateClock() {
-  const s = Math.floor((Date.now()-start)/1000);
-  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60;
-  document.getElementById('clock').textContent =
-    String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
-}
-setInterval(updateClock, 1000);
-
-// ============ COPY ============
-function copyCode(btn, id) {
-  const pre = document.getElementById(id);
-  navigator.clipboard.writeText(pre.textContent);
-  btn.textContent='✓ copied!'; btn.classList.add('copied');
-  setTimeout(()=>{btn.textContent='copy';btn.classList.remove('copied')},2000);
+function showTopic(id) {
+  document.querySelectorAll('.page, .topic-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+id);
+  if (navEl) navEl.classList.add('active');
+  document.getElementById('pageName').textContent = id;
+  document.getElementById('main').scrollTop = 0;
+  if (window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
 }
 
-// ============ SIDEBAR ============
-function toggleSidebar(){
+function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('show');
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
 }
 
-// ============ TOAST ============
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+// ==================== MARK DONE ====================
+function markDone(id) {
+  if (done[id]) return;
+  done[id] = true;
+  xp += 10;
+  document.getElementById('xpDisplay').textContent = xp + ' XP';
+  document.getElementById('btn-'+id).textContent = '✅ Completed!';
+  document.getElementById('btn-'+id).classList.add('completed');
+  document.getElementById('chk-'+id).textContent = '✓';
+  document.getElementById('done-'+id).textContent = '✓';
+  document.getElementById('card-'+id).classList.add('done');
+  document.getElementById('nav-'+id).classList.add('done');
+  const count = Object.keys(done).length;
+  document.getElementById('doneCount').textContent = count;
+  document.getElementById('progressCount').textContent = count+'/9';
+  document.getElementById('progressFill').style.width = (count/9*100)+'%';
 }
 
-// ============ GAME: QUIZ ============
-const questions = [
-  {q:"What is the time complexity of Binary Search?",opts:["O(n)","O(log n)","O(n²)","O(n log n)"],ans:1,exp:"Binary Search halves the search space each step → O(log n)"},
-  {q:"Which data structure does BFS use?",opts:["Stack","Queue","Heap","Tree"],ans:1,exp:"BFS uses a Queue — First In, First Out, level by level"},
-  {q:"Dijkstra's algorithm fails when graph has:",opts:["Many vertices","Negative edge weights","Undirected edges","Cycles"],ans:1,exp:"Dijkstra assumes non-negative weights. Use Bellman-Ford for negative weights."},
-  {q:"What does L[u] (Low value) represent in Articulation Points?",opts:["Largest DFS number","Minimum DFS number reachable","Number of children","Distance from root"],ans:1,exp:"L[u] = min of dfn[u] and dfn of back-edge endpoints reachable from u's subtree"},
-  {q:"Kruskal's algorithm uses which data structure to detect cycles?",opts:["Stack","Queue","Union-Find (Disjoint Set)","Min-Heap only"],ans:2,exp:"Union-Find tracks connected components — if Find(u)==Find(v), adding edge creates a cycle"},
-  {q:"Inorder traversal of a BST gives:",opts:["Reverse sorted","Random order","Sorted ascending order","Level order"],ans:2,exp:"Inorder (Left→Root→Right) always gives ascending sorted output for BST"},
-  {q:"Merge Sort space complexity is:",opts:["O(1)","O(log n)","O(n)","O(n²)"],ans:2,exp:"Merge Sort needs O(n) extra space for the temporary arrays during merge step"},
-  {q:"In Quick Sort worst case occurs when:",opts:["Array is random","Pivot is always median","Array is already sorted","Array has duplicates"],ans:2,exp:"Worst case O(n²) when pivot is always the smallest/largest — happens with sorted arrays"},
-  {q:"Prim's algorithm is better for:",opts:["Sparse graphs","Dense graphs","Both equally","Directed graphs only"],ans:1,exp:"Prim's O(V²) is better for dense graphs. Kruskal's O(E log E) suits sparse graphs."},
-  {q:"In Job Sequencing, jobs must be sorted by:",opts:["Deadline ascending","Profit descending","Job ID","Duration"],ans:1,exp:"JS algorithm requires jobs sorted in non-increasing order of profit p[1]≥p[2]≥...≥p[n]"},
-  {q:"What is the time complexity of DFS?",opts:["O(V²)","O(V+E)","O(E log V)","O(V log V)"],ans:1,exp:"DFS visits each vertex and edge exactly once → O(V+E)"},
-  {q:"dfn[u] in Articulation Point algorithm represents:",opts:["Low value","Degree of node","DFS discovery number","Distance from source"],ans:2,exp:"dfn[u] = DFS discovery number, i.e., the order in which vertex u was first visited"},
+// ==================== COPY CODE ====================
+function copyCode(btn) {
+  const pre = btn.closest('.code-box').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copied!';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = 'copy'; btn.style.color = ''; }, 1500);
+  });
+}
+
+// ==================== QUIZ ====================
+const quizData = [
+  { q: "What is the time complexity of Binary Search?", opts: ["O(n)", "O(log n)", "O(n²)", "O(n log n)"], ans: 1 },
+  { q: "Quick Sort worst case occurs when?", opts: ["Array is random", "Array is sorted", "Array has duplicates", "Array is small"], ans: 1 },
+  { q: "Merge Sort space complexity is?", opts: ["O(1)", "O(log n)", "O(n)", "O(n²)"], ans: 2 },
+  { q: "BFS uses which data structure?", opts: ["Stack", "Queue", "Heap", "Tree"], ans: 1 },
+  { q: "DFS uses which data structure?", opts: ["Queue", "Heap", "Stack/Recursion", "Array"], ans: 2 },
+  { q: "Dijkstra's algorithm fails with?", opts: ["Large graphs", "Negative edge weights", "Directed graphs", "Dense graphs"], ans: 1 },
+  { q: "Prim's algorithm builds MST by?", opts: ["Sorting edges", "Growing one tree from a vertex", "Finding cycles", "Using Union-Find"], ans: 1 },
+  { q: "Kruskal's algorithm uses which technique?", opts: ["Dynamic Programming", "Divide & Conquer", "Union-Find", "Backtracking"], ans: 2 },
+  { q: "Job Sequencing sorts jobs by?", opts: ["Deadline", "Profit (decreasing)", "ID", "Duration"], ans: 1 },
+  { q: "BST Inorder traversal gives?", opts: ["Root first", "Leaves first", "Sorted order", "Reverse sorted"], ans: 2 },
+  { q: "Articulation Point removal causes?", opts: ["Cycle formation", "Graph disconnection", "MST change", "Weight increase"], ans: 1 },
+  { q: "Merge Sort is always?", opts: ["O(n²)", "O(n log n)", "O(log n)", "O(n)"], ans: 1 },
 ];
-
-let qIdx=0, qScore=0, qAnswered=false;
+let qIdx = 0, qScore = 0, qTotal = 0, qAnswered = false;
 
 function loadQuestion() {
-  const data = questions[qIdx % questions.length];
-  document.getElementById('quiz-q').textContent = (qIdx+1)+'. '+data.q;
-  const opts = document.getElementById('quiz-opts');
-  opts.innerHTML='';
-  data.opts.forEach((o,i)=>{
-    const d=document.createElement('div');
-    d.className='quiz-opt'; d.textContent=o;
-    d.onclick=()=>answerQuestion(i);
+  qIdx = Math.floor(Math.random() * quizData.length);
+  const q = quizData[qIdx];
+  document.getElementById('quizQ').textContent = q.q;
+  const opts = document.getElementById('quizOpts');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const d = document.createElement('div');
+    d.className = 'quiz-opt';
+    d.textContent = o;
+    d.onclick = () => answerQ(i, d);
     opts.appendChild(d);
   });
-  document.getElementById('quiz-fb').className='quiz-feedback';
-  document.getElementById('quiz-next-btn').className='quiz-next';
-  qAnswered=false;
+  qAnswered = false;
 }
 
-function answerQuestion(idx) {
-  if(qAnswered) return;
-  qAnswered=true;
-  const data=questions[qIdx%questions.length];
-  const opts=document.querySelectorAll('.quiz-opt');
-  opts[data.ans].classList.add('correct');
-  const fb=document.getElementById('quiz-fb');
-  if(idx===data.ans) {
-    qScore++;
-    opts[idx].classList.add('correct');
-    fb.textContent='✅ Correct! '+data.exp;
-    fb.className='quiz-feedback show ok';
-    xp+=5; document.getElementById('xp').textContent=xp;
-  } else {
-    opts[idx].classList.add('wrong');
-    fb.textContent='❌ Wrong. '+data.exp;
-    fb.className='quiz-feedback show no';
-  }
-  document.getElementById('q-score').textContent=qScore;
-  document.getElementById('q-total').textContent=qIdx+1;
-  document.getElementById('quiz-next-btn').className='quiz-next show';
+function answerQ(i, el) {
+  if (qAnswered) return;
+  qAnswered = true; qTotal++;
+  const correct = quizData[qIdx].ans;
+  document.querySelectorAll('.quiz-opt')[correct].classList.add('correct');
+  if (i !== correct) el.classList.add('wrong');
+  else { qScore++; }
+  document.getElementById('qScore').textContent = qScore;
+  document.getElementById('qTotal').textContent = qTotal;
 }
 
-function nextQuestion() {
-  qIdx++;
-  loadQuestion();
-}
-
+function nextQuestion() { loadQuestion(); }
 loadQuestion();
 
-// ============ GAME: MEMORY ============
+// ==================== MEMORY GAME ====================
 const memPairs = [
-  ['Binary Search','O(log n)'],
-  ['Merge Sort','O(n log n)'],
-  ['Quick Sort','O(n²) worst'],
-  ['Dijkstra','O(V²)'],
-  ['BFS / DFS','O(V+E)'],
-  ['Prim\'s MST','O(V²)'],
-  ['Kruskal\'s','O(E log E)'],
-  ['Job Seq JS','O(n²)'],
+  ['Binary Search', 'O(log n)'],
+  ['Quick Sort', 'O(n log n)'],
+  ['Merge Sort', 'O(n log n)*'],
+  ['BFS / DFS', 'O(V+E)'],
+  ['Dijkstra', 'O(V²)'],
+  ['Prim\'s', 'O(V²)'],
+  ['Job Seq.', 'O(n²)'],
+  ['BST Ops', 'O(log n)**'],
 ];
-
-let memFlipped=[], memMatchCount=0, memMoves=0, memLocked=false;
+let memCards = [], memFlipped = [], memMatchCount = 0, memMoveCount = 0, memLocked = false;
 
 function initMemory() {
-  memFlipped=[]; memMatchCount=0; memMoves=0; memLocked=false;
-  document.getElementById('mem-moves').textContent=0;
-  document.getElementById('mem-matched').textContent=0;
-  const cards=[];
-  memPairs.forEach((p,i)=>{cards.push({id:i*2,pair:i,text:p[0]});cards.push({id:i*2+1,pair:i,text:p[1]});});
-  cards.sort(()=>Math.random()-0.5);
-  const grid=document.getElementById('mem-grid');
-  grid.innerHTML='';
-  cards.forEach(c=>{
-    const el=document.createElement('div');
-    el.className='mem-card'; el.textContent=c.text;
-    el.dataset.pair=c.pair; el.dataset.id=c.id;
-    el.onclick=()=>flipCard(el,c);
-    grid.appendChild(el);
+  memFlipped = []; memMatchCount = 0; memMoveCount = 0; memLocked = false;
+  document.getElementById('memMoves').textContent = 0;
+  document.getElementById('memMatched').textContent = 0;
+  const items = [];
+  memPairs.forEach(([a, b], i) => { items.push({text:a, id:i}); items.push({text:b, id:i}); });
+  items.sort(() => Math.random() - 0.5);
+  memCards = items;
+  const grid = document.getElementById('memGrid');
+  grid.innerHTML = '';
+  items.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'mem-card';
+    card.textContent = item.text;
+    card.dataset.idx = idx;
+    card.dataset.id = item.id;
+    card.onclick = () => flipCard(card);
+    grid.appendChild(card);
   });
 }
 
-function flipCard(el,c) {
-  if(memLocked||el.classList.contains('flipped')||el.classList.contains('matched')) return;
-  el.classList.add('flipped');
-  memFlipped.push({el,c});
-  if(memFlipped.length===2) {
-    memMoves++;
-    document.getElementById('mem-moves').textContent=memMoves;
-    memLocked=true;
-    const [a,b]=memFlipped;
-    if(a.c.pair===b.c.pair) {
-      a.el.classList.add('matched'); b.el.classList.add('matched');
+function flipCard(card) {
+  if (memLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  if (memFlipped.length === 2) {
+    memLocked = true; memMoveCount++;
+    document.getElementById('memMoves').textContent = memMoveCount;
+    if (memFlipped[0].dataset.id === memFlipped[1].dataset.id) {
+      memFlipped.forEach(c => c.classList.add('matched'));
       memMatchCount++;
-      document.getElementById('mem-matched').textContent=memMatchCount;
-      memFlipped=[]; memLocked=false;
-      if(memMatchCount===8) {showToast('🎉 Memory cleared in '+memMoves+' moves! +20 XP');xp+=20;document.getElementById('xp').textContent=xp;}
+      document.getElementById('memMatched').textContent = memMatchCount;
+      memFlipped = []; memLocked = false;
     } else {
-      setTimeout(()=>{a.el.classList.remove('flipped');b.el.classList.remove('flipped');memFlipped=[];memLocked=false;},900);
+      setTimeout(() => {
+        memFlipped.forEach(c => c.classList.remove('flipped'));
+        memFlipped = []; memLocked = false;
+      }, 900);
     }
   }
 }
-
 initMemory();
 
-// ============ GAME: SNAKE ============
-const CELL=20, COLS=16, ROWS=16;
-let snake, dir, food, snakeLoop, snakeRunning=false, snakeScore=0, snakeBest=0;
-const canvas=document.getElementById('snake-canvas');
-const ctx=canvas.getContext('2d');
-
-function drawSnake() {
-  ctx.fillStyle='#080c14';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  // Grid
-  ctx.strokeStyle='#0d1117';
-  for(let i=0;i<=COLS;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,ROWS*CELL);ctx.stroke();}
-  for(let i=0;i<=ROWS;i++){ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(COLS*CELL,i*CELL);ctx.stroke();}
-  // Food
-  ctx.fillStyle='#f43f5e';
-  ctx.beginPath();ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL/2-2,0,Math.PI*2);ctx.fill();
-  // Snake
-  snake.forEach((s,i)=>{
-    ctx.fillStyle = i===0 ? '#34d399' : '#10b981';
-    ctx.fillRect(s.x*CELL+1,s.y*CELL+1,CELL-2,CELL-2);
-  });
-}
+// ==================== SNAKE ====================
+const canvas = document.getElementById('snake-canvas');
+const ctx = canvas.getContext('2d');
+const CELL = 20, COLS = 20, ROWS = 20;
+let snake, dir, food, snakeRunning, snakeBest = 0, snakeScoreCur = 0, snakeLoop;
 
 function startSnake() {
-  snake=[{x:8,y:8},{x:7,y:8},{x:6,y:8}];
-  dir={x:1,y:0}; snakeScore=0;
-  document.getElementById('snake-score').textContent=0;
-  placeFood();
   clearInterval(snakeLoop);
-  snakeRunning=true;
-  document.getElementById('snake-start-btn').textContent='🔄 Restart';
-  snakeLoop=setInterval(stepSnake,130);
+  snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+  dir = {x:1,y:0};
+  snakeScoreCur = 0;
+  document.getElementById('snakeScore').textContent = 0;
+  placeFood();
+  snakeRunning = true;
+  document.getElementById('snakeStartBtn').textContent = '🔄 Restart';
+  snakeLoop = setInterval(tickSnake, 140);
 }
 
 function placeFood() {
-  do{food={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}
-  while(snake.some(s=>s.x===food.x&&s.y===food.y));
+  do {
+    food = {x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS)};
+  } while (snake.some(s => s.x===food.x && s.y===food.y));
 }
 
-function stepSnake() {
-  const head={x:snake[0].x+dir.x, y:snake[0].y+dir.y};
-  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)) {
-    clearInterval(snakeLoop); snakeRunning=false;
-    if(snakeScore>snakeBest){snakeBest=snakeScore;document.getElementById('snake-best').textContent=snakeBest;}
-    ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#f43f5e';ctx.font='bold 18px JetBrains Mono';
-    ctx.textAlign='center';ctx.fillText('Game Over! Score: '+snakeScore,canvas.width/2,canvas.height/2);
-    document.getElementById('snake-start-btn').textContent='▶ Play Again';
+function tickSnake() {
+  const head = {x: snake[0].x+dir.x, y: snake[0].y+dir.y};
+  if (head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)) {
+    clearInterval(snakeLoop); snakeRunning = false;
+    drawSnake(); ctx.fillStyle='rgba(0,0,0,0.6)'; ctx.fillRect(0,0,400,400);
+    ctx.fillStyle='#fff'; ctx.font='bold 24px JetBrains Mono'; ctx.textAlign='center';
+    ctx.fillText('GAME OVER', 200, 190);
+    ctx.font='16px JetBrains Mono'; ctx.fillText('Score: '+snakeScoreCur, 200, 220);
     return;
   }
   snake.unshift(head);
-  if(head.x===food.x&&head.y===food.y){snakeScore++;document.getElementById('snake-score').textContent=snakeScore;placeFood();}
-  else snake.pop();
+  if (head.x===food.x && head.y===food.y) {
+    snakeScoreCur += 10;
+    if (snakeScoreCur > snakeBest) { snakeBest = snakeScoreCur; document.getElementById('snakeBest').textContent = snakeBest; }
+    document.getElementById('snakeScore').textContent = snakeScoreCur;
+    placeFood();
+  } else snake.pop();
   drawSnake();
 }
 
-document.addEventListener('keydown',e=>{
-  if(!snakeRunning) return;
-  const k={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},
-    w:{x:0,y:-1},s:{x:0,y:1},a:{x:-1,y:0},d:{x:1,y:0}};
-  const nd=k[e.key];
-  if(nd&&!(nd.x===-dir.x&&nd.y===-dir.y)){dir=nd;e.preventDefault();}
+function drawSnake() {
+  ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,400,400);
+  ctx.fillStyle = '#1a1a24';
+  for (let x=0;x<COLS;x++) for(let y=0;y<ROWS;y++) {
+    if((x+y)%2===0) { ctx.fillRect(x*CELL,y*CELL,CELL,CELL); }
+  }
+  ctx.fillStyle = '#ff6584';
+  ctx.beginPath();
+  ctx.arc(food.x*CELL+CELL/2, food.y*CELL+CELL/2, CELL/2-2, 0, Math.PI*2);
+  ctx.fill();
+  snake.forEach((s,i) => {
+    ctx.fillStyle = i===0 ? '#6c63ff' : `hsl(${240+i*3},70%,${60-i*1.5}%)`;
+    ctx.beginPath();
+    ctx.roundRect(s.x*CELL+1, s.y*CELL+1, CELL-2, CELL-2, 4);
+    ctx.fill();
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (!snakeRunning) return;
+  if ((e.key==='ArrowUp'||e.key==='w') && dir.y!==1) dir={x:0,y:-1};
+  else if ((e.key==='ArrowDown'||e.key==='s') && dir.y!==-1) dir={x:0,y:1};
+  else if ((e.key==='ArrowLeft'||e.key==='a') && dir.x!==1) dir={x:-1,y:0};
+  else if ((e.key==='ArrowRight'||e.key==='d') && dir.x!==-1) dir={x:1,y:0};
 });
 
-// Draw initial canvas
-ctx.fillStyle='#080c14';ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle='#1f2937';ctx.font='14px JetBrains Mono';ctx.textAlign='center';
-ctx.fillText('Press ▶ Start to play',canvas.width/2,canvas.height/2);
-
-// ============ GAME TAB SWITCH ============
-function switchGame(id, tabEl) {
-  document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.game-panel').forEach(p=>p.classList.remove('active'));
-  tabEl.classList.add('active');
+function switchGame(id, el) {
+  document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('game-'+id).classList.add('active');
+  document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
 }
 
-// ============ MOBILE MENU BTN ============
-if(window.innerWidth<=768) {
-  document.getElementById('menuBtn').style.display='flex';
-}
-window.addEventListener('resize',()=>{
-  document.getElementById('menuBtn').style.display=window.innerWidth<=768?'flex':'none';
-});
+// Draw initial snake board
+placeFood = () => { food = {x:10,y:5}; };
+snake = [{x:10,y:10}]; food = {x:10,y:5};
+drawSnake();
+placeFood = () => {
+  do { food = {x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}; }
+  while (snake.some(s=>s.x===food.x&&s.y===food.y));
+};
 </script>
 </body>
 </html>
