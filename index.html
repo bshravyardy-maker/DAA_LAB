@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAA Lab — Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #7c6af7;
+    --accent2: #f7936a;
+    --accent3: #4fd1c5;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --code-bg: #0d0d16;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --red: #f87171;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo h1 {
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+
+  .sidebar-logo p {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    margin-top: 4px;
+  }
+
+  .sidebar-section {
+    padding: 12px 12px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    margin: 1px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13.5px;
+    color: var(--muted);
+    font-weight: 600;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: var(--card);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .nav-item.active {
+    background: rgba(124, 106, 247, 0.12);
+    color: var(--accent);
+    border-color: rgba(124, 106, 247, 0.3);
+  }
+
+  .nav-item .tag {
+    margin-left: auto;
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--border);
+    color: var(--muted);
+  }
+
+  .nav-item.active .tag {
+    background: rgba(124,106,247,0.2);
+    color: var(--accent);
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+  }
+
+  .breadcrumb {
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .breadcrumb span { color: var(--text); }
+
+  .progress-ring {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .progress-bar {
+    width: 120px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 40px;
+    max-width: 900px;
+  }
+
+  .topic-header {
+    margin-bottom: 36px;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .topic-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    border: 1px solid;
+  }
+
+  .tag-dc { background: rgba(251,191,36,0.1); color: var(--yellow); border-color: rgba(251,191,36,0.3); }
+  .tag-graph { background: rgba(79,209,197,0.1); color: var(--accent3); border-color: rgba(79,209,197,0.3); }
+  .tag-greedy { background: rgba(74,222,128,0.1); color: var(--green); border-color: rgba(74,222,128,0.3); }
+  .tag-dp { background: rgba(247,147,106,0.1); color: var(--accent2); border-color: rgba(247,147,106,0.3); }
+  .tag-tree { background: rgba(124,106,247,0.1); color: var(--accent); border-color: rgba(124,106,247,0.3); }
+
+  .topic-title {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--text) 60%, var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .topic-subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .card p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #c0c0d8;
+    font-weight: 400;
+  }
+
+  /* ALGO BOX */
+  .algo-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #a0a0c8;
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .algo-box .line-num {
+    color: #3a3a5a;
+    user-select: none;
+    margin-right: 16px;
+  }
+
+  .algo-box .kw { color: #7c6af7; font-weight: 700; }
+  .algo-box .fn { color: #4fd1c5; }
+  .algo-box .comment { color: #4a4a6a; font-style: italic; }
+  .algo-box .val { color: #f7936a; }
+  .algo-box .op { color: #fbbf24; }
+
+  .algo-label {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    background: var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* COMPLEXITY BOX */
+  .complexity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .complexity-item {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .complexity-item .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .complexity-item .value {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .complexity-item.best .value { color: var(--green); }
+  .complexity-item.avg .value { color: var(--yellow); }
+  .complexity-item.worst .value { color: var(--red); }
+
+  /* VISUAL */
+  .visual-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: #8080b0;
+    overflow-x: auto;
+  }
+
+  .visual-box .highlight { color: var(--accent); font-weight: 700; }
+  .visual-box .found { color: var(--green); font-weight: 700; }
+  .visual-box .active { color: var(--accent2); font-weight: 700; }
+  .visual-box .step { color: var(--muted); font-size: 11px; }
+
+  /* STEPS */
+  .steps { counter-reset: step; }
+
+  .step-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+  }
+
+  .step-item:last-child { border-bottom: none; }
+
+  .step-num {
+    counter-increment: step;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 8px;
+    background: rgba(124,106,247,0.15);
+    border: 1px solid rgba(124,106,247,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent);
+  }
+
+  .step-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #c0c0d8;
+    padding-top: 4px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    background: var(--code-bg);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    width: fit-content;
+  }
+
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeUp 0.3s ease; }
+
+  /* GRID 2 */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* HIGHLIGHT ROW */
+  .highlight-row {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(124,106,247,0.06);
+    border: 1px solid rgba(124,106,247,0.15);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .highlight-row .icon {
+    font-size: 18px;
+    margin-top: 1px;
+  }
+
+  .highlight-row .text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #c0c0d8;
+  }
+
+  .highlight-row .text strong { color: var(--text); }
+
+  /* PAGE SECTIONS */
+  .page { display: none; animation: fadeUp 0.35s ease; }
+  .page.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .content { padding: 20px; }
+    .topic-title { font-size: 28px; }
+    .complexity-grid { grid-template-columns: repeat(3,1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .topbar { padding: 0 20px; }
+    .menu-btn { display: flex !important; }
+  }
+
+  .menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 18px;
+  }
+
+  /* HOME GRID */
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .topic-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(124,106,247,0.15);
+  }
+
+  .topic-card .tc-icon { font-size: 28px; margin-bottom: 12px; }
+  .topic-card .tc-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .topic-card .tc-type { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  .topic-card .tc-arrow {
+    position: absolute;
+    right: 16px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--border);
+    font-size: 20px;
+    transition: all 0.2s;
+  }
+
+  .topic-card:hover .tc-arrow { color: var(--accent); right: 12px; }
+
+  .hero-text {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .hero-text span {
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat { text-align: center; }
+  .stat .num {
+    font-size: 32px;
+    font-weight: 800;
+    font-family: 'Space Mono', monospace;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat .lbl { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    margin-bottom: 28px;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover { color: var(--text); border-color: var(--accent); }
+
+  /* CODE TABS */
+  .code-area {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(42,42,58,0.3);
+  }
+
+  .code-dots { display: flex; gap: 6px; }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .code-dot.r { background: #ff5f56; }
+  .code-dot.y { background: #ffbd2e; }
+  .code-dot.g { background: #27c93f; }
+
+  .code-lang {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #a0a0c8;
+    white-space: pre;
+  }
+
+  pre .kw { color: #7c6af7; font-weight: 700; }
+  pre .fn { color: #4fd1c5; }
+  pre .str { color: #4ade80; }
+  pre .num { color: #f7936a; }
+  pre .cmt { color: #4a4a6a; }
+  pre .type { color: #fbbf24; }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+  }
+
+  .overlay.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>DAA Lab</h1>
+    <p>// design &amp; analysis of algorithms</p>
+  </div>
+
+  <div class="sidebar-section">Topics</div>
+
+  <div class="nav-item active" onclick="showHome(this)">
+    <span>🏠</span> Home
+  </div>
+
+  <div class="sidebar-section">Divide &amp; Conquer</div>
+  <div class="nav-item" onclick="showTopic('binary-search', this)">
+    <span>🔍</span> Binary Search <span class="tag">O(log n)</span>
+  </div>
+  <div class="nav-item" onclick="showTopic('merge-sort', this)">
+    <span>🔀</span> Merge Sort <span class="tag">O(n log n)</span>
+  </div>
+  <div class="nav-item" onclick="showTopic('quick-sort', this)">
+    <span>⚡</span> Quick Sort <span class="tag">O(n log n)</span>
+  </div>
+
+  <div class="sidebar-section">Graph Algorithms</div>
+  <div class="nav-item" onclick="showTopic('bfs-dfs', this)">
+    <span>🌐</span> BFS &amp; DFS <span class="tag">O(V+E)</span>
+  </div>
+  <div class="nav-item" onclick="showTopic('articulation', this)">
+    <span>🔗</span> Articulation Points
+  </div>
+  <div class="nav-item" onclick="showTopic('biconnected', this)">
+    <span>🕸️</span> Biconnected Components
+  </div>
+  <div class="nav-item" onclick="showTopic('dijkstra', this)">
+    <span>🗺️</span> Dijkstra's <span class="tag">O((V+E)logV)</span>
+  </div>
+
+  <div class="sidebar-section">Greedy</div>
+  <div class="nav-item" onclick="showTopic('prim', this)">
+    <span>🌲</span> Prim's Algorithm
+  </div>
+  <div class="nav-item" onclick="showTopic('kruskal', this)">
+    <span>🔧</span> Kruskal's Algorithm
+  </div>
+  <div class="nav-item" onclick="showTopic('job-sequencing', this)">
+    <span>📋</span> Job Sequencing
+  </div>
+
+  <div class="sidebar-section">Trees</div>
+  <div class="nav-item" onclick="showTopic('bst-traversals', this)">
+    <span>🌳</span> BST Traversals
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</div>
+      <div class="breadcrumb" id="breadcrumb">DAA Lab / <span>Home</span></div>
+    </div>
+    <div class="progress-ring">
+      <span id="progressText">0 / 11</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div style="animation: fadeUp 0.5s ease;">
+        <div class="hero-text">Learn DAA<br><span>the easy way.</span></div>
+        <p class="hero-sub">All 11 algorithms from your lab syllabus — explained simply with algorithms, examples, and code in C &amp; Java.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">11</div><div class="lbl">Topics</div></div>
+          <div class="stat"><div class="num">3</div><div class="lbl">Categories</div></div>
+          <div class="stat"><div class="num">C+Java</div><div class="lbl">Code</div></div>
+        </div>
+      </div>
+      <div class="home-grid">
+        <div class="topic-card" onclick="showTopic('binary-search', null)">
+          <div class="tc-icon">🔍</div>
+          <div class="tc-name">Binary Search</div>
+          <div class="tc-type">divide &amp; conquer</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('merge-sort', null)">
+          <div class="tc-icon">🔀</div>
+          <div class="tc-name">Merge Sort</div>
+          <div class="tc-type">divide &amp; conquer</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('quick-sort', null)">
+          <div class="tc-icon">⚡</div>
+          <div class="tc-name">Quick Sort</div>
+          <div class="tc-type">divide &amp; conquer</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('bfs-dfs', null)">
+          <div class="tc-icon">🌐</div>
+          <div class="tc-name">BFS &amp; DFS</div>
+          <div class="tc-type">graph traversal</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('articulation', null)">
+          <div class="tc-icon">🔗</div>
+          <div class="tc-name">Articulation Points</div>
+          <div class="tc-type">graph</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('biconnected', null)">
+          <div class="tc-icon">🕸️</div>
+          <div class="tc-name">Biconnected</div>
+          <div class="tc-type">graph</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('dijkstra', null)">
+          <div class="tc-icon">🗺️</div>
+          <div class="tc-name">Dijkstra's</div>
+          <div class="tc-type">shortest path</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('prim', null)">
+          <div class="tc-icon">🌲</div>
+          <div class="tc-name">Prim's Algorithm</div>
+          <div class="tc-type">greedy / MST</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('kruskal', null)">
+          <div class="tc-icon">🔧</div>
+          <div class="tc-name">Kruskal's Algorithm</div>
+          <div class="tc-type">greedy / MST</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('job-sequencing', null)">
+          <div class="tc-icon">📋</div>
+          <div class="tc-name">Job Sequencing</div>
+          <div class="tc-type">greedy</div>
+          <div class="tc-arrow">→</div>
+        </div>
+        <div class="topic-card" onclick="showTopic('bst-traversals', null)">
+          <div class="tc-icon">🌳</div>
+          <div class="tc-name">BST Traversals</div>
+          <div class="tc-type">trees</div>
+          <div class="tc-arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BINARY SEARCH -->
+    <div class="page" id="page-binary-search">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-dc">⚡ DIVIDE &amp; CONQUER</div>
+        <div class="topic-title">Binary Search</div>
+        <p class="topic-subtitle">Search a sorted array by repeatedly halving the search space. Much faster than checking every element.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p>If the array is <strong style="color:var(--text)">sorted</strong>, compare your target with the middle element. If the target is smaller, search the left half; if larger, search the right half. Repeat. Each step <strong style="color:var(--accent)">eliminates half the remaining elements</strong>.</p>
+        <div class="visual-box" style="margin-top:16px;">
+<span class="step">Array: [2, 5, 8, 12, 16, 23, 38, 56, 72, 91]   Target = 23</span>
+
+<span class="step">Step 1:</span>  [<span class="active">2  5  8  12  16</span>  <span class="highlight">23</span>  <span class="active">38  56  72  91</span>]
+          Low=0  Mid=4  High=9  →  arr[4]=16  &lt;  23  →  search RIGHT
+
+<span class="step">Step 2:</span>  [...  <span class="active">38  56  72  91</span>]  +  [<span class="highlight">23</span>]
+          Low=5  Mid=7  High=9  →  arr[7]=56  &gt;  23  →  search LEFT
+
+<span class="step">Step 3:</span>  Low=5  Mid=5  High=6  →  arr[5]=<span class="found">23  ✓  FOUND at index 5</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Algorithm (from your lab)</div>
+        <div class="algo-box">
+          <div class="algo-label">PSEUDOCODE</div>
+<span class="fn">BinarySearch</span>(<span class="val">arr</span>, <span class="val">low</span>, <span class="val">high</span>, <span class="val">key</span>)
+{
+  <span class="kw">while</span> (low ≤ high) <span class="kw">do</span>
+  {
+    mid := (low + high) / <span class="val">2</span>;
+
+    <span class="kw">if</span> (arr[mid] = key) <span class="kw">then</span>
+      <span class="kw">return</span> mid;  <span class="comment">// Found!</span>
+
+    <span class="kw">else if</span> (arr[mid] &lt; key) <span class="kw">then</span>
+      low := mid + <span class="val">1</span>;  <span class="comment">// Search right half</span>
+
+    <span class="kw">else</span>
+      high := mid - <span class="val">1</span>; <span class="comment">// Search left half</span>
+  }
+  <span class="kw">return</span> <span class="val">-1</span>; <span class="comment">// Not found</span>
+}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Time Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item best"><div class="label">Best Case</div><div class="value">O(1)</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">middle element</div></div>
+          <div class="complexity-item avg"><div class="label">Average</div><div class="value">O(log n)</div></div>
+          <div class="complexity-item worst"><div class="label">Worst Case</div><div class="value">O(log n)</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Java Code</div>
+        <div id="bs-java" class="tab-content active">
+          <div class="code-area">
+            <div class="code-header"><div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div><span class="code-lang">Java</span></div>
+            <pre><span class="kw">public class</span> <span class="type">BinarySearch</span> {
+    <span class="kw">static int</span> <span class="fn">binarySearch</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> key) {
+        <span class="kw">int</span> low = <span class="num">0</span>, high = arr.length - <span class="num">1</span>;
+        <span class="kw">while</span> (low &lt;= high) {
+            <span class="kw">int</span> mid = (low + high) / <span class="num">2</span>;
+            <span class="kw">if</span> (arr[mid] == key)   <span class="kw">return</span> mid;
+            <span class="kw">else if</span> (arr[mid] &lt; key) low = mid + <span class="num">1</span>;
+            <span class="kw">else</span>                   high = mid - <span class="num">1</span>;
+        }
+        <span class="kw">return</span> <span class="num">-1</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">int</span>[] arr = {<span class="num">2</span>, <span class="num">5</span>, <span class="num">8</span>, <span class="num">12</span>, <span class="num">23</span>, <span class="num">38</span>, <span class="num">56</span>};
+        <span class="kw">int</span> result = <span class="fn">binarySearch</span>(arr, <span class="num">23</span>);
+        System.out.println(result != <span class="num">-1</span> ?
+            <span class="str">"Found at: "</span> + result : <span class="str">"Not found"</span>);
+    }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MERGE SORT -->
+    <div class="page" id="page-merge-sort">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-dc">⚡ DIVIDE &amp; CONQUER</div>
+        <div class="topic-title">Merge Sort</div>
+        <p class="topic-subtitle">Split the array in half, sort each half, then merge them back together. Guaranteed O(n log n).</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p><strong style="color:var(--text)">Divide:</strong> Split array into two halves recursively until single elements. <strong style="color:var(--text)">Conquer:</strong> Sort each half. <strong style="color:var(--text)">Merge:</strong> Combine two sorted halves by comparing elements one by one.</p>
+        <div class="visual-box" style="margin-top:16px;">
+<span class="step">Original:</span>  [<span class="active">38  27  43  3  9  82  10</span>]
+
+<span class="step">Split:</span>    [<span class="highlight">38  27  43</span>]     [<span class="highlight">3  9  82  10</span>]
+           [<span class="highlight">38</span>] [<span class="highlight">27 43</span>]  [<span class="highlight">3  9</span>] [<span class="highlight">82  10</span>]
+           [<span class="highlight">38</span>][<span class="highlight">27</span>][<span class="highlight">43</span>]  [<span class="highlight">3</span>][<span class="highlight">9</span>] [<span class="highlight">82</span>][<span class="highlight">10</span>]
+
+<span class="step">Merge:</span>    [<span class="highlight">27  38</span>] → [<span class="highlight">27  38  43</span>]
+                        [<span class="highlight">3  9</span>] → [<span class="highlight">3  9  10  82</span>]
+
+<span class="step">Final:</span>    [<span class="found">3  9  10  27  38  43  82</span>]  ✓
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm</div>
+        <div class="algo-box">
+<span class="fn">MergeSort</span>(<span class="val">arr</span>, <span class="val">low</span>, <span class="val">high</span>)
+{
+  <span class="kw">if</span> (low &lt; high) <span class="kw">then</span>
+  {
+    mid := (low + high) / <span class="val">2</span>;
+    <span class="fn">MergeSort</span>(arr, low, mid);       <span class="comment">// Sort left half</span>
+    <span class="fn">MergeSort</span>(arr, mid+<span class="val">1</span>, high);    <span class="comment">// Sort right half</span>
+    <span class="fn">Merge</span>(arr, low, mid, high);      <span class="comment">// Merge both halves</span>
+  }
+}
+
+<span class="fn">Merge</span>(<span class="val">arr</span>, <span class="val">low</span>, <span class="val">mid</span>, <span class="val">high</span>)
+{
+  <span class="comment">// Create temp arrays L[] and R[]</span>
+  i := low; j := mid+<span class="val">1</span>; k := low;
+  <span class="kw">while</span> (i ≤ mid <span class="kw">and</span> j ≤ high) <span class="kw">do</span>
+  {
+    <span class="kw">if</span> (L[i] ≤ R[j]) <span class="kw">then</span> arr[k++] := L[i++];
+    <span class="kw">else</span> arr[k++] := R[j++];
+  }
+  <span class="comment">// Copy remaining elements</span>
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Time Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item best"><div class="label">Best</div><div class="value">O(n log n)</div></div>
+          <div class="complexity-item avg"><div class="label">Average</div><div class="value">O(n log n)</div></div>
+          <div class="complexity-item worst"><div class="label">Worst</div><div class="value">O(n log n)</div></div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted);">🌟 Always O(n log n) — that's why it's used in production systems. Extra O(n) space needed.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Java Code</div>
+        <div id="ms-java" class="tab-content active">
+          <div class="code-area"><div class="code-header"><div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div><span class="code-lang">Java</span></div>
+<pre><span class="kw">static void</span> <span class="fn">mergeSort</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">if</span> (l &lt; r) {
+        <span class="kw">int</span> m = (l + r) / <span class="num">2</span>;
+        <span class="fn">mergeSort</span>(arr, l, m);
+        <span class="fn">mergeSort</span>(arr, m + <span class="num">1</span>, r);
+        <span class="fn">merge</span>(arr, l, m, r);
+    }
+}
+
+<span class="kw">static void</span> <span class="fn">merge</span>(<span class="kw">int</span>[] arr, <span class="kw">int</span> l, <span class="kw">int</span> m, <span class="kw">int</span> r) {
+    <span class="kw">int</span> n1=m-l+<span class="num">1</span>, n2=r-m;
+    <span class="kw">int</span>[] L=<span class="kw">new int</span>[n1], R=<span class="kw">new int</span>[n2];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n1;i++) L[i]=arr[l+i];
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;n2;j++) R[j]=arr[m+<span class="num">1</span>+j];
+    <span class="kw">int</span> i=<span class="num">0</span>,j=<span class="num">0</span>,k=l;
+    <span class="kw">while</span>(i&lt;n1 &amp;&amp; j&lt;n2)
+        arr[k++]=(L[i]&lt;=R[j])?L[i++]:R[j++];
+    <span class="kw">while</span>(i&lt;n1) arr[k++]=L[i++];
+    <span class="kw">while</span>(j&lt;n2) arr[k++]=R[j++];
+}</pre></div></div>
+      </div>
+    </div>
+
+    <!-- QUICK SORT -->
+    <div class="page" id="page-quick-sort">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-dc">⚡ DIVIDE &amp; CONQUER</div>
+        <div class="topic-title">Quick Sort</div>
+        <p class="topic-subtitle">Pick a pivot, put smaller elements left, larger right. Recursively sort each side. In practice, fastest sorting algorithm.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p>Choose a <strong style="color:var(--accent)">pivot</strong> element. Rearrange so all elements smaller than pivot come before it, all larger come after. The pivot is now in its <strong style="color:var(--green)">final sorted position</strong>. Recursively do the same for left and right halves.</p>
+        <div class="visual-box" style="margin-top:16px;">
+<span class="step">Array: [10, 80, 30, 90, 40, 50, 70]   Pivot = arr[last] = 70</span>
+
+<span class="step">Partition:</span>
+  i = -1
+  j=0: arr[0]=10 &lt; 70 → swap arr[0],arr[0] → i=0 → [<span class="found">10</span> 80 30 90 40 50 70]
+  j=2: arr[2]=30 &lt; 70 → swap arr[1],arr[2] → i=1 → [<span class="found">10 30</span> 80 90 40 50 70]
+  j=4: arr[4]=40 &lt; 70 → swap arr[2],arr[4] → i=2 → [<span class="found">10 30 40</span> 90 80 50 70]
+  j=5: arr[5]=50 &lt; 70 → swap arr[3],arr[5] → i=3 → [<span class="found">10 30 40 50</span> 80 90 70]
+  Place pivot: swap arr[4],arr[6]
+
+<span class="step">Result:</span> [<span class="found">10 30 40 50</span> <span class="highlight">70</span> <span class="active">90 80</span>]  ← pivot 70 in final position!
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm</div>
+        <div class="algo-box">
+<span class="fn">QuickSort</span>(<span class="val">arr</span>, <span class="val">low</span>, <span class="val">high</span>)
+{
+  <span class="kw">if</span> (low &lt; high) <span class="kw">then</span>
+  {
+    pi := <span class="fn">Partition</span>(arr, low, high); <span class="comment">// pivot index</span>
+    <span class="fn">QuickSort</span>(arr, low, pi-<span class="val">1</span>);
+    <span class="fn">QuickSort</span>(arr, pi+<span class="val">1</span>, high);
+  }
+}
+
+<span class="fn">Partition</span>(<span class="val">arr</span>, <span class="val">low</span>, <span class="val">high</span>)
+{
+  pivot := arr[high];
+  i := low - <span class="val">1</span>;
+  <span class="kw">for</span> j := low <span class="kw">to</span> high-<span class="val">1</span> <span class="kw">do</span>
+  {
+    <span class="kw">if</span> (arr[j] ≤ pivot) <span class="kw">then</span>
+    {
+      i := i + <span class="val">1</span>;
+      swap(arr[i], arr[j]);
+    }
+  }
+  swap(arr[i+<span class="val">1</span>], arr[high]);
+  <span class="kw">return</span> i + <span class="val">1</span>;
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Time Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item best"><div class="label">Best</div><div class="value">O(n log n)</div></div>
+          <div class="complexity-item avg"><div class="label">Average</div><div class="value">O(n log n)</div></div>
+          <div class="complexity-item worst"><div class="label">Worst</div><div class="value">O(n²)</div></div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted);">⚠️ Worst case when array is already sorted. In-place: O(log n) space.</p>
+      </div>
+    </div>
+
+    <!-- BFS & DFS -->
+    <div class="page" id="page-bfs-dfs">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-graph">🌐 GRAPH TRAVERSAL</div>
+        <div class="topic-title">BFS &amp; DFS</div>
+        <p class="topic-subtitle">Two fundamental ways to visit every node in a graph. BFS explores level by level. DFS goes deep before backtracking.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">BFS — Breadth First Search</div>
+          <p>Uses a <strong style="color:var(--accent3)">Queue</strong>. Visit all neighbors of current node before going deeper. Like spreading water — level by level.</p>
+          <div class="visual-box" style="margin-top:12px;">
+<span class="step">Graph: 1→[2,3], 2→[4,5], 3→[6]</span>
+
+Queue: [<span class="highlight">1</span>]
+Visit 1 → Queue: [<span class="highlight">2, 3</span>]
+Visit 2 → Queue: [<span class="highlight">3, 4, 5</span>]
+Visit 3 → Queue: [<span class="highlight">4, 5, 6</span>]
+Visit 4, 5, 6 → done
+
+<span class="found">BFS Order: 1 2 3 4 5 6</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">DFS — Depth First Search</div>
+          <p>Uses a <strong style="color:var(--accent2)">Stack</strong> (or recursion). Go as deep as possible, then backtrack. Like exploring a maze — one path fully before another.</p>
+          <div class="visual-box" style="margin-top:12px;">
+<span class="step">Same Graph: 1→[2,3], 2→[4,5], 3→[6]</span>
+
+Stack: [<span class="highlight">1</span>]
+Visit 1 → push 2,3 → Stack: [<span class="highlight">3, 2</span>]
+Visit 2 → push 4,5 → Stack: [<span class="highlight">3, 5, 4</span>]
+Visit 4 → Stack: [<span class="highlight">3, 5</span>]
+Visit 5 → Stack: [<span class="highlight">3</span>]
+Visit 3 → push 6
+
+<span class="found">DFS Order: 1 2 4 5 3 6</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm — BFS</div>
+        <div class="algo-box">
+<span class="fn">BFS</span>(<span class="val">G</span>, <span class="val">start</span>)
+{
+  <span class="kw">for all</span> vertices v: visited[v] := false;
+  Queue Q; Q.enqueue(start); visited[start] := true;
+  <span class="kw">while</span> (Q <span class="kw">not</span> empty) <span class="kw">do</span>
+  {
+    v := Q.dequeue(); print(v);
+    <span class="kw">for each</span> neighbor w <span class="kw">of</span> v <span class="kw">do</span>
+      <span class="kw">if</span> (visited[w] = false) <span class="kw">then</span>
+        { Q.enqueue(w); visited[w] := true; }
+  }
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm — DFS</div>
+        <div class="algo-box">
+<span class="fn">DFS</span>(<span class="val">G</span>, <span class="val">v</span>)
+{
+  visited[v] := true; print(v);
+  <span class="kw">for each</span> neighbor w <span class="kw">of</span> v <span class="kw">do</span>
+    <span class="kw">if</span> (visited[w] = false) <span class="kw">then</span>
+      <span class="fn">DFS</span>(G, w);  <span class="comment">// Recursive call</span>
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Java Code</div>
+        <div class="code-area"><div class="code-header"><div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div><span class="code-lang">Java</span></div>
+<pre><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="type">GraphTraversal</span> {
+    <span class="kw">static int</span>[][] adj;
+    <span class="kw">static boolean</span>[] visited;
+    <span class="kw">static int</span> n;
+
+    <span class="kw">static void</span> <span class="fn">bfs</span>(<span class="kw">int</span> start) {
+        Queue&lt;Integer&gt; queue = <span class="kw">new</span> LinkedList&lt;&gt;();
+        visited[start] = <span class="kw">true</span>;
+        queue.add(start);
+        <span class="kw">while</span> (!queue.isEmpty()) {
+            <span class="kw">int</span> v = queue.poll();
+            System.out.print(v + <span class="str">" "</span>);
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+                <span class="kw">if</span> (adj[v][i] == <span class="num">1</span> &amp;&amp; !visited[i]) {
+                    visited[i] = <span class="kw">true</span>;
+                    queue.add(i);
+                }
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">dfs</span>(<span class="kw">int</span> v) {
+        visited[v] = <span class="kw">true</span>;
+        System.out.print(v + <span class="str">" "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++)
+            <span class="kw">if</span> (adj[v][i] == <span class="num">1</span> &amp;&amp; !visited[i])
+                <span class="fn">dfs</span>(i);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Scanner sc = <span class="kw">new</span> Scanner(System.in);
+        n = sc.nextInt();
+        adj = <span class="kw">new int</span>[n+<span class="num">1</span>][n+<span class="num">1</span>];
+        visited = <span class="kw">new boolean</span>[n+<span class="num">1</span>];
+        <span class="kw">int</span> e = sc.nextInt();
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; e; i++) {
+            <span class="kw">int</span> u = sc.nextInt(), v = sc.nextInt();
+            adj[u][v] = adj[v][u] = <span class="num">1</span>;
+        }
+        System.out.print(<span class="str">"BFS: "</span>); <span class="fn">bfs</span>(<span class="num">1</span>);
+        Arrays.fill(visited, <span class="kw">false</span>);
+        System.out.print(<span class="str">"\nDFS: "</span>); <span class="fn">dfs</span>(<span class="num">1</span>);
+    }
+}</pre></div>
+      </div>
+    </div>
+
+    <!-- ARTICULATION POINTS -->
+    <div class="page" id="page-articulation">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-graph">🌐 GRAPH</div>
+        <div class="topic-title">Articulation Points</div>
+        <p class="topic-subtitle">A vertex whose removal increases the number of connected components. Critical nodes — removing them disconnects the graph.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">What is an Articulation Point?</div>
+        <div class="highlight-row"><div class="icon">💡</div><div class="text">Imagine a network of computers. An <strong>articulation point</strong> is a computer whose failure would split the network into isolated parts. Finding these is critical for network reliability.</div></div>
+        <div class="visual-box">
+<span class="step">Graph: 1-2-3-4-5, with 3 also connected to 6-7</span>
+
+    1 --- <span class="highlight">2</span> --- <span class="highlight">3</span> --- 4 --- 5
+                  |
+                  6
+                  |
+                  7
+
+Removing node <span class="highlight">2</span>: {1} and {3,4,5,6,7} → <span class="active">DISCONNECTED → Articulation Point!</span>
+Removing node <span class="highlight">3</span>: {1,2} and {4,5} and {6,7} → <span class="active">DISCONNECTED → Articulation Point!</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm — Art(u, v) from your lab</div>
+        <div class="algo-box">
+          <div class="algo-label">EXACT LAB ALGORITHM</div>
+<span class="fn">Art</span>(<span class="val">u</span>, <span class="val">v</span>)
+<span class="comment">// u is start vertex for DFS. v is its parent.
+// dfn[] = DFS discovery number, L[] = low value
+// num = global counter, initialized to 1</span>
+{
+  dfn[u] := num;  L[u] := num;  num := num + <span class="val">1</span>;
+  <span class="kw">for each</span> vertex w adjacent <span class="kw">from</span> u <span class="kw">do</span>
+  {
+    <span class="kw">if</span> (dfn[w] = <span class="val">0</span>) <span class="kw">then</span>   <span class="comment">// w is unvisited</span>
+    {
+      <span class="fn">Art</span>(w, u);
+      L[u] := min(L[u], L[w]);
+      <span class="comment">// u is AP if: u is root with 2+ children</span>
+      <span class="comment">//          OR L[w] >= dfn[u] for non-root</span>
+    }
+    <span class="kw">else if</span> (w ≠ v) <span class="kw">then</span>
+      L[u] := min(L[u], dfn[w]);
+  }
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Key Concepts</div>
+        <div class="steps">
+          <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>dfn[u]</strong> — Discovery time of vertex u in DFS (when it was first visited)</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>L[u]</strong> (Low value) — The minimum of dfn[u], dfn of all back-edge endpoints reachable from u's subtree</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-text"><strong>u is Articulation Point if:</strong> It's the root of DFS tree with ≥2 children, OR it's non-root and L[child] ≥ dfn[u]</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BICONNECTED -->
+    <div class="page" id="page-biconnected">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-graph">🌐 GRAPH</div>
+        <div class="topic-title">Biconnected Components</div>
+        <p class="topic-subtitle">Maximal subgraphs with no articulation points. Each component remains connected even after removing any single vertex.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">What is a Biconnected Component?</div>
+        <div class="highlight-row"><div class="icon">💡</div><div class="text">A <strong>biconnected component</strong> is a maximal subgraph that has no articulation point. Between any two vertices in a BCC, there are at least <strong>two vertex-disjoint paths</strong>.</div></div>
+        <div class="highlight-row"><div class="icon">🔗</div><div class="text">A graph is biconnected if it is connected and has <strong>no articulation points</strong>. BCCs are separated at articulation points.</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm (Uses Art + Stack)</div>
+        <div class="algo-box">
+<span class="comment">// Modified DFS — push edges onto stack</span>
+<span class="fn">BiConnect</span>(<span class="val">u</span>, <span class="val">v</span>)
+{
+  dfn[u] := num;  L[u] := num;  num++;
+  <span class="kw">for each</span> w adjacent <span class="kw">from</span> u <span class="kw">do</span>
+  {
+    <span class="kw">if</span> (dfn[w] = <span class="val">0</span>) <span class="kw">then</span>
+    {
+      push edge (u,w) onto stack;
+      <span class="fn">BiConnect</span>(w, u);
+      L[u] := min(L[u], L[w]);
+      <span class="kw">if</span> (L[w] ≥ dfn[u]) <span class="kw">then</span>
+      {
+        <span class="comment">// u is an articulation point</span>
+        <span class="comment">// Pop edges until (u,w) — these form a BCC</span>
+        print <span class="str">"New BCC:"</span>;
+        <span class="kw">while</span> top of stack ≠ (u,w): pop &amp; print;
+        pop (u,w);
+      }
+    }
+    <span class="kw">else if</span> (w ≠ v <span class="kw">and</span> dfn[w] &lt; dfn[u]) <span class="kw">then</span>
+    {
+      push edge (u,w); L[u] := min(L[u], dfn[w]);
+    }
+  }
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Key Point</div>
+        <p>Every edge belongs to exactly one biconnected component. Two BCCs share at most one vertex (an articulation point). The algorithm is essentially DFS + stack of edges.</p>
+      </div>
+    </div>
+
+    <!-- DIJKSTRA -->
+    <div class="page" id="page-dijkstra">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-graph">🗺️ SHORTEST PATH</div>
+        <div class="topic-title">Dijkstra's Algorithm</div>
+        <p class="topic-subtitle">Find the shortest path from a source vertex to all other vertices in a weighted graph. Greedy approach with a distance table.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p>Maintain a <strong style="color:var(--accent)">dist[]</strong> array. Initially all distances = ∞ except source = 0. Repeatedly pick the <strong style="color:var(--accent3)">unvisited vertex with minimum distance</strong>, mark it visited, then update distances of its neighbors.</p>
+        <div class="visual-box" style="margin-top:12px;">
+<span class="step">Graph with source = 1</span>
+Vertices: 1,2,3,4,5
+Edges: 1-2(10), 1-3(3), 2-4(2), 3-2(4), 3-4(8), 3-5(2), 4-5(5), 5-4(1)
+
+<span class="step">Initial:</span>  dist = [<span class="found">0</span>, ∞, ∞, ∞, ∞]  visited={}
+
+<span class="step">Pick 1:</span>   Update: dist[2]=10, dist[3]=3
+          dist = [<span class="found">0</span>, <span class="highlight">10</span>, <span class="highlight">3</span>, ∞, ∞]
+
+<span class="step">Pick 3:</span>   (min unvisited) Update: dist[2]=min(10,7)=7, dist[5]=5
+          dist = [<span class="found">0</span>, <span class="highlight">7</span>, <span class="found">3</span>, ∞, <span class="highlight">5</span>]
+
+<span class="step">Final:</span>    dist = [<span class="found">0, 7, 3, 9, 5</span>]  (shortest from vertex 1)
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm (from your lab)</div>
+        <div class="algo-box">
+          <div class="algo-label">EXACT LAB ALGORITHM</div>
+<span class="fn">ShortestPaths</span>(<span class="val">v</span>, <span class="val">cost</span>, <span class="val">dist</span>, <span class="val">n</span>)
+<span class="comment">// dist[j] = cost of shortest path from v to j</span>
+{
+  <span class="kw">for</span> i := <span class="val">1</span> <span class="kw">to</span> n <span class="kw">do</span>
+    { S[i] := false; dist[i] := cost[v][i]; }
+
+  S[v] := true;  dist[v] := <span class="val">0</span>;
+
+  <span class="kw">for</span> num := <span class="val">2</span> <span class="kw">to</span> n-<span class="val">1</span> <span class="kw">do</span>
+  {
+    <span class="comment">// Choose u = unvisited vertex with min dist</span>
+    u := <span class="fn">Choose</span>(dist, S, n);
+    S[u] := true;
+
+    <span class="kw">for</span> each w <span class="kw">not in</span> S <span class="kw">do</span>
+    {
+      <span class="kw">if</span> (dist[u] + cost[u][w] &lt; dist[w]) <span class="kw">then</span>
+        dist[w] := dist[u] + cost[u][w];
+    }
+  }
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Time Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item avg"><div class="label">Simple Array</div><div class="value">O(V²)</div></div>
+          <div class="complexity-item best"><div class="label">Min-Heap</div><div class="value">O((V+E)logV)</div></div>
+          <div class="complexity-item worst"><div class="label">Fibonacci Heap</div><div class="value">O(E + VlogV)</div></div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted);">⚠️ Does NOT work with negative edge weights. Use Bellman-Ford for that.</p>
+      </div>
+    </div>
+
+    <!-- PRIM -->
+    <div class="page" id="page-prim">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-greedy">🌲 GREEDY / MST</div>
+        <div class="topic-title">Prim's Algorithm</div>
+        <p class="topic-subtitle">Find the Minimum Spanning Tree by greedily adding the cheapest edge that connects a new vertex. Grows one tree from start.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p>Start with any vertex. At each step, add the <strong style="color:var(--accent)">cheapest edge</strong> that connects a vertex inside our growing tree to a vertex outside. Stop when all vertices are included.</p>
+        <div class="visual-box" style="margin-top:12px;">
+<span class="step">Graph: 5 vertices, start from vertex 1</span>
+Edges: 1-2(2), 1-3(3), 2-3(1), 2-4(4), 3-5(5), 4-5(6)
+
+<span class="step">Step 1:</span> Tree={1}  Min edge from 1: 1-2(2) → add
+<span class="step">Step 2:</span> Tree={1,2}  Min edge: 2-3(1) → add
+<span class="step">Step 3:</span> Tree={1,2,3}  Min edge: 1-3(3) or 2-4(4)? → 2-4(4) is cheapest new
+<span class="step">Step 4:</span> Tree={1,2,3,4}  Min edge: 3-5(5) → add
+
+<span class="step">MST edges:</span> <span class="found">1-2(2), 2-3(1), 2-4(4), 3-5(5)   Total cost = 12</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm (from your lab)</div>
+        <div class="algo-box">
+          <div class="algo-label">EXACT LAB ALGORITHM</div>
+<span class="fn">Prim</span>(<span class="val">E</span>, <span class="val">cost</span>, <span class="val">n</span>, <span class="val">t</span>)
+<span class="comment">// t[1..n-1][1..2] stores the MST edges</span>
+{
+  <span class="comment">// Find least cost edge</span>
+  Let (k,l) be edge with minimum cost in E;
+  mincost := cost[k][l];
+  t[<span class="val">1</span>][<span class="val">1</span>] := k;  t[<span class="val">1</span>][<span class="val">2</span>] := l;
+  <span class="kw">for</span> i := <span class="val">1</span> <span class="kw">to</span> n <span class="kw">do</span>
+    <span class="kw">if</span> (cost[i][l] &lt; cost[i][k]) <span class="kw">then</span> near[i] := l;
+    <span class="kw">else</span> near[i] := k;
+  near[k] := near[l] := <span class="val">0</span>;
+
+  <span class="kw">for</span> i := <span class="val">2</span> <span class="kw">to</span> n-<span class="val">1</span> <span class="kw">do</span>
+  {
+    j := <span class="comment">// vertex with min cost[j][near[j]]</span>
+    t[i][<span class="val">1</span>] := j;  t[i][<span class="val">2</span>] := near[j];
+    mincost := mincost + cost[j][near[j]];
+    near[j] := <span class="val">0</span>;
+    <span class="kw">for</span> k := <span class="val">1</span> <span class="kw">to</span> n <span class="kw">do</span>
+      <span class="kw">if</span> (near[k]≠<span class="val">0</span>) <span class="kw">and</span> (cost[k][j] &lt; cost[k][near[k]]) <span class="kw">then</span>
+        near[k] := j;
+  }
+  <span class="kw">return</span> mincost;
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item avg"><div class="label">Simple</div><div class="value">O(V²)</div></div>
+          <div class="complexity-item best"><div class="label">Binary Heap</div><div class="value">O(E log V)</div></div>
+          <div class="complexity-item best"><div class="label">Space</div><div class="value">O(V+E)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KRUSKAL -->
+    <div class="page" id="page-kruskal">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-greedy">🔧 GREEDY / MST</div>
+        <div class="topic-title">Kruskal's Algorithm</div>
+        <p class="topic-subtitle">Build MST by sorting ALL edges and adding cheapest ones that don't form a cycle. Uses Union-Find data structure.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Big Idea</div>
+        <p>Sort all edges by weight. Pick the cheapest edge. If adding it doesn't create a cycle, add it to MST. Repeat until n-1 edges selected. Uses <strong style="color:var(--accent)">Union-Find</strong> to detect cycles.</p>
+        <div class="visual-box" style="margin-top:12px;">
+<span class="step">Edges sorted: (1,2,1), (2,3,2), (4,5,2), (1,3,3), (2,4,4), (3,5,5)</span>
+
+<span class="step">Step 1:</span> (1,2,1) → no cycle → <span class="found">ADD</span>   MST: {1-2}
+<span class="step">Step 2:</span> (2,3,2) → no cycle → <span class="found">ADD</span>   MST: {1-2, 2-3}
+<span class="step">Step 3:</span> (4,5,2) → no cycle → <span class="found">ADD</span>   MST: {1-2, 2-3, 4-5}
+<span class="step">Step 4:</span> (1,3,3) → <span class="active">CYCLE!</span> (1,2,3 already connected) → SKIP
+<span class="step">Step 5:</span> (2,4,4) → no cycle → <span class="found">ADD</span>   MST: {1-2, 2-3, 4-5, 2-4}
+
+<span class="found">MST complete! 4 edges for 5 vertices. Total = 1+2+2+4 = 9</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm (from your lab)</div>
+        <div class="algo-box">
+          <div class="algo-label">EXACT LAB ALGORITHM</div>
+<span class="fn">Kruskal</span>(<span class="val">E</span>, <span class="val">cost</span>, <span class="val">n</span>, <span class="val">t</span>)
+<span class="comment">// E = edge set, sorted by cost. n = vertices.</span>
+{
+  <span class="kw">for</span> i := <span class="val">1</span> <span class="kw">to</span> n <span class="kw">do</span> parent[i] := -<span class="val">1</span>; <span class="comment">// Init</span>
+  i := <span class="val">0</span>;  mincost := <span class="val">0</span>;
+
+  <span class="kw">while</span> (i &lt; n-<span class="val">1</span> <span class="kw">and</span> E <span class="kw">not empty</span>) <span class="kw">do</span>
+  {
+    <span class="comment">// Remove cheapest edge from E</span>
+    (u,v) := edge with min cost from E;
+
+    j := <span class="fn">Find</span>(u);  k := <span class="fn">Find</span>(v);
+
+    <span class="kw">if</span> (j ≠ k) <span class="kw">then</span>   <span class="comment">// No cycle!</span>
+    {
+      i := i + <span class="val">1</span>;
+      t[i][<span class="val">1</span>] := u;  t[i][<span class="val">2</span>] := v;
+      mincost := mincost + cost(u,v);
+      <span class="fn">Union</span>(j, k);     <span class="comment">// Merge components</span>
+    }
+  }
+
+  <span class="kw">if</span> (i ≠ n-<span class="val">1</span>) <span class="kw">then</span> print <span class="str">"No spanning tree"</span>;
+  <span class="kw">else return</span> mincost;
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Prim vs Kruskal</div>
+        <div class="grid2">
+          <div class="highlight-row"><div class="icon">🌲</div><div class="text"><strong>Prim's</strong> — Grows one connected tree. Better for <strong>dense graphs</strong> (many edges).</div></div>
+          <div class="highlight-row"><div class="icon">🔧</div><div class="text"><strong>Kruskal's</strong> — Sorts all edges. Better for <strong>sparse graphs</strong> (few edges).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOB SEQUENCING -->
+    <div class="page" id="page-job-sequencing">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-greedy">📋 GREEDY</div>
+        <div class="topic-title">Job Sequencing</div>
+        <p class="topic-subtitle">Schedule jobs to maximize total profit, given each job has a deadline and profit. Only one job can run at a time.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Problem</div>
+        <div class="highlight-row"><div class="icon">📌</div><div class="text">You have <strong>n jobs</strong>, each with a <strong>deadline</strong> and <strong>profit</strong>. Each job takes 1 unit of time. Maximize total profit by selecting jobs that can finish by their deadlines.</div></div>
+        <div class="visual-box" style="margin-top:12px;">
+<span class="step">Jobs sorted by profit (decreasing):</span>
+Job  | Deadline | Profit
+J1   |    2     |  100   ← highest profit
+J2   |    1     |   50
+J3   |    2     |   10
+J4   |    1     |   20
+
+<span class="step">Greedy: pick highest profit jobs that fit:</span>
+Time slots: [_, _]
+J1 (deadline 2): slot 2 available → assign slot 2 → [_, J1]
+J2 (deadline 1): slot 1 available → assign slot 1 → [J2, J1]
+J4 (deadline 1): slot 1 taken, no earlier → SKIP
+J3 (deadline 2): slot 2 taken → SKIP
+
+<span class="found">Selected: J1, J2   Total Profit = 100 + 50 = 150</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithm JS(d, j, n) — from your lab</div>
+        <div class="algo-box">
+          <div class="algo-label">EXACT LAB ALGORITHM</div>
+<span class="fn">JS</span>(<span class="val">d</span>, <span class="val">j</span>, <span class="val">n</span>)
+<span class="comment">// d[i] = deadlines, p[1]≥p[2]≥...≥p[n] (sorted)
+// J[i] = ith job in optimal solution</span>
+{
+  d[<span class="val">0</span>] := J[<span class="val">0</span>] := <span class="val">0</span>;   <span class="comment">// Initialize</span>
+  J[<span class="val">1</span>] := <span class="val">1</span>;  k := <span class="val">1</span>;   <span class="comment">// Include job 1</span>
+
+  <span class="kw">for</span> i := <span class="val">2</span> <span class="kw">to</span> n <span class="kw">do</span>
+  {
+    <span class="comment">// Find position for job i</span>
+    r := k;
+    <span class="kw">while</span> ((d[J[r]] &gt; d[i]) <span class="kw">and</span> (d[J[r]] ≠ r)) <span class="kw">do</span>
+      r := r - <span class="val">1</span>;
+
+    <span class="kw">if</span> ((d[J[r]] ≤ d[i]) <span class="kw">and</span> (d[i] &gt; r)) <span class="kw">then</span>
+    {
+      <span class="comment">// Insert job i at position r+1</span>
+      <span class="kw">for</span> q := k <span class="kw">to</span> r+<span class="val">1</span> <span class="kw">step</span> -<span class="val">1</span> <span class="kw">do</span>
+        J[q+<span class="val">1</span>] := J[q];
+      J[r+<span class="val">1</span>] := i;
+      k := k + <span class="val">1</span>;
+    }
+  }
+  <span class="kw">return</span> k;
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Complexity</div>
+        <div class="complexity-grid">
+          <div class="complexity-item avg"><div class="label">Time</div><div class="value">O(n²)</div></div>
+          <div class="complexity-item best"><div class="label">With Union-Find</div><div class="value">O(n log n)</div></div>
+          <div class="complexity-item best"><div class="label">Space</div><div class="value">O(n)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BST TRAVERSALS -->
+    <div class="page" id="page-bst-traversals">
+      <button class="back-btn" onclick="showHome()">← Back to Home</button>
+      <div class="topic-header">
+        <div class="topic-tag tag-tree">🌳 TREES</div>
+        <div class="topic-title">BST Traversals</div>
+        <p class="topic-subtitle">Three ways to visit every node in a Binary Search Tree. The order you visit nodes changes what you get.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Tree</div>
+        <div class="visual-box">
+<span class="step">BST with values: 50, 30, 70, 20, 40</span>
+
+              <span class="highlight">50</span>
+             /   \
+          <span class="highlight">30</span>      <span class="highlight">70</span>
+          / \
+       <span class="highlight">20</span>   <span class="highlight">40</span>
+
+<span class="found">Inorder:   20  30  40  50  70</span>  ← sorted order!
+<span class="active">Preorder:  50  30  20  40  70</span>  ← root first
+<span class="highlight">Postorder: 20  40  30  70  50</span>  ← root last
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Three Traversals — Simple Memory Trick</div>
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(74,222,128,0.15);border-color:rgba(74,222,128,0.3);color:var(--green)">IN</div>
+            <div class="step-text"><strong style="color:var(--green)">Inorder: Left → Root → Right</strong><br>Gives nodes in <strong>sorted ascending order</strong>. Used to check if BST is valid. Output: 20 30 40 50 70</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(247,147,106,0.15);border-color:rgba(247,147,106,0.3);color:var(--accent2)">PRE</div>
+            <div class="step-text"><strong style="color:var(--accent2)">Preorder: Root → Left → Right</strong><br>Root first. Used to <strong>copy/serialize</strong> a tree. Output: 50 30 20 40 70</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(124,106,247,0.15);border-color:rgba(124,106,247,0.3);color:var(--accent)">POST</div>
+            <div class="step-text"><strong style="color:var(--accent)">Postorder: Left → Right → Root</strong><br>Root last. Used to <strong>delete</strong> a tree (delete children before parent). Output: 20 40 30 70 50</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Algorithms (from your lab)</div>
+        <div class="grid2">
+          <div class="algo-box">
+<span class="fn">Inorder</span>(<span class="val">root</span>)
+{
+  <span class="kw">if</span> (root ≠ null) <span class="kw">then</span>
+  {
+    <span class="fn">Inorder</span>(root.left);
+    print(root.data);
+    <span class="fn">Inorder</span>(root.right);
+  }
+}
+          </div>
+          <div class="algo-box">
+<span class="fn">Preorder</span>(<span class="val">root</span>)
+{
+  <span class="kw">if</span> (root ≠ null) <span class="kw">then</span>
+  {
+    print(root.data);
+    <span class="fn">Preorder</span>(root.left);
+    <span class="fn">Preorder</span>(root.right);
+  }
+}
+          </div>
+        </div>
+        <div class="algo-box" style="margin-top:12px;">
+<span class="fn">Postorder</span>(<span class="val">root</span>)
+{
+  <span class="kw">if</span> (root ≠ null) <span class="kw">then</span>
+  {
+    <span class="fn">Postorder</span>(root.left);
+    <span class="fn">Postorder</span>(root.right);
+    print(root.data);
+  }
+}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Java Code</div>
+        <div id="bst-java" class="tab-content active">
+          <div class="code-area"><div class="code-header"><div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div><span class="code-lang">Java</span></div>
+<pre><span class="kw">class</span> <span class="type">Node</span> {
+    <span class="kw">int</span> data; <span class="type">Node</span> left, right;
+    <span class="type">Node</span>(<span class="kw">int</span> d){ data=d; left=right=<span class="kw">null</span>; }
+}
+
+<span class="kw">static</span> <span class="type">Node</span> <span class="fn">insert</span>(<span class="type">Node</span> root, <span class="kw">int</span> key) {
+    <span class="kw">if</span>(root==<span class="kw">null</span>) <span class="kw">return new</span> <span class="type">Node</span>(key);
+    <span class="kw">if</span>(key &lt; root.data) root.left  = <span class="fn">insert</span>(root.left, key);
+    <span class="kw">else</span>               root.right = <span class="fn">insert</span>(root.right, key);
+    <span class="kw">return</span> root;
+}
+<span class="kw">static void</span> <span class="fn">inorder</span>(<span class="type">Node</span> r) {
+    <span class="kw">if</span>(r!=<span class="kw">null</span>){ <span class="fn">inorder</span>(r.left); System.out.print(r.data+<span class="str">" "</span>); <span class="fn">inorder</span>(r.right); }
+}
+<span class="kw">static void</span> <span class="fn">preorder</span>(<span class="type">Node</span> r) {
+    <span class="kw">if</span>(r!=<span class="kw">null</span>){ System.out.print(r.data+<span class="str">" "</span>); <span class="fn">preorder</span>(r.left); <span class="fn">preorder</span>(r.right); }
+}
+<span class="kw">static void</span> <span class="fn">postorder</span>(<span class="type">Node</span> r) {
+    <span class="kw">if</span>(r!=<span class="kw">null</span>){ <span class="fn">postorder</span>(r.left); <span class="fn">postorder</span>(r.right); System.out.print(r.data+<span class="str">" "</span>); }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .content -->
+</div><!-- end .main -->
+
+<script>
+  const visited = new Set();
+
+  function showHome(navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-home').classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(navEl) navEl.classList.add('active');
+    else document.querySelector('.nav-item').classList.add('active');
+    document.getElementById('breadcrumb').innerHTML = 'DAA Lab / <span>Home</span>';
+    closeSidebar();
+  }
+
+  function showTopic(id, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if(page) page.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(navEl) navEl.classList.add('active');
+    else {
+      document.querySelectorAll('.nav-item').forEach(n => {
+        if(n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active');
+      });
+    }
+    const names = {
+      'binary-search':'Binary Search','merge-sort':'Merge Sort','quick-sort':'Quick Sort',
+      'bfs-dfs':'BFS & DFS','articulation':'Articulation Points','biconnected':'Biconnected',
+      'dijkstra':"Dijkstra's",'prim':"Prim's",'kruskal':"Kruskal's",
+      'job-sequencing':'Job Sequencing','bst-traversals':'BST Traversals'
+    };
+    document.getElementById('breadcrumb').innerHTML = 'DAA Lab / <span>' + (names[id]||id) + '</span>';
+    visited.add(id);
+    updateProgress();
+    closeSidebar();
+    window.scrollTo(0, 0);
+  }
+
+  function updateProgress() {
+    const total = 11;
+    const done = visited.size;
+    document.getElementById('progressText').textContent = done + ' / ' + total;
+    document.getElementById('progressFill').style.width = (done/total*100) + '%';
+  }
+
+  function switchTab(btn, tabId) {
+    const card = btn.closest('.card');
+    card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    card.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+</script>
+</body>
+</html>
